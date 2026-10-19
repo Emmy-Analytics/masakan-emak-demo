@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Demo katalog menu Masakan Emak">
+<title>Masakan Emak — Beranda</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-bg" aria-hidden="true"></div>
+<div class="demo-notice">
+  <span class="demo-badge">DEMO WEBSITE</span>
+  <span>
+    Konsep website untuk presentasi.
+    Menu, harga, kontak, dan pemesanan akan disesuaikan
+    setelah mendapat persetujuan pemilik restoran.
+  </span>
+</div>
+<header class="glass-header">
+  <div class="brand-area">
+    <a class="logo" href="#beranda">Masakan <span>Emak</span></a>
+    <p>Hallo Sahabat Masakan Emak Lover!</p>
+  </div>
+  <div class="header-right">
+    <nav>
+      <a class="active" href="#beranda">Beranda</a>
+      <a href="#menu">Menu</a>
+      <a href="#pesanan">Pesanan</a>
+      <a href="#lokasi">Lokasi</a>
+    </nav>
+    <div class="search-order">
+      <label class="search"><input id="searchInput" type="search" placeholder="Cari masakan disini..." aria-label="Cari masakan"><button id="searchBtn" aria-label="Cari">⌕</button></label>
+      <a class="order-main" href="#pesanan">Pesanan</a>
+    </div>
+  </div>
+</header>
+
+<main id="beranda">
+  <section class="category-bar" aria-label="Kategori menu">
+  <button class="category-chip active" data-category="Semua">Semua</button>
+  <button class="category-chip" data-category="Makanan">Makanan</button>
+  <button class="category-chip" data-category="Minuman">Minuman</button>
+  <button class="category-chip" data-category="Dessert">Dessert</button>
+  </section>
+
+<section class="menu-grid" id="menu" aria-label="Daftar menu"></section>
+  <section class="order-panel" id="pesanan">
+    <div>
+      <h2>Pesanan Saya <span id="cartCount">0</span></h2>
+      <p>Pilih menu, lalu lanjutkan pesanan melalui WhatsApp.</p>
+    </div>
+    <div id="cartItems" class="cart-items"><p>Belum ada menu yang dipilih.</p></div>
+    <div class="cart-bottom">
+      <strong>Total: <span id="cartTotal">Rp0</span></strong>
+      <button id="checkoutBtn" class="order-main">Pesan via WhatsApp</button>
+    </div>
+  </section>
+  
+<section class="location-section" id="lokasi">
+  <div class="location-copy">
+    <p class="location-eyebrow">KUNJUNGI KAMI</p>
+    <h2>Lokasi <em>Masakan Emak</em></h2>
+    <p>Temukan lokasi restoran kami melalui peta di bawah ini.</p>
+
+    <p class="location-address">
+      📍 Jl. Melati No. 12, Jakarta Selatan
+    </p>
+    <p class="location-note">
+      Bagian lokasi ini masih berupa contoh untuk kebutuhan demo.
+    </p>
+
+    <a
+      class="maps-link"
+      href="https://www.google.com/maps/search/?api=1&query=Jl.+Melati+No.+12+Jakarta+Selatan"
+      target="_blank"
+      rel="noopener"
+    >
+      Buka di Google Maps ↗
+    </a>
+  </div>
+
+  <div class="map-frame">
+    <iframe
+      title="Peta lokasi Masakan Emak"
+      src="https://maps.google.com/maps?q=Jl.%20Melati%20No.%2012%2C%20Jakarta%20Selatan&z=14&output=embed"
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</section>
+
+  <footer>
+    <span class="footer-logo">Masakan Emak</span>
+    <span>Demo portofolio PortofolioKu — menu, harga, dan kontak adalah contoh.</span>
+  </footer>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
