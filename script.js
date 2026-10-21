@@ -601,3 +601,99 @@ if (reservationForm) {
 
   syncCartCount();
 })();
+
+/* ========================================
+   MASAKAN EMAK — SCROLL REVEAL
+======================================== */
+(() => {
+  const selectors = [
+    '.food-card',
+    '.review-card',
+    '.reservation-section',
+    '.location-section'
+  ].join(',');
+
+  // Fallback untuk browser tanpa IntersectionObserver
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll(selectors).forEach((element) => {
+      element.classList.add('is-visible');
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -35px 0px'
+  });
+
+  function revealElements(root = document) {
+    if (root.matches?.(selectors)) {
+      if (!root.classList.contains('reveal-on-scroll')) {
+        root.classList.add('reveal-on-scroll');
+        observer.observe(root);
+      }
+    }
+
+    root.querySelectorAll?.(selectors).forEach((element) => {
+      if (!element.classList.contains('reveal-on-scroll')) {
+        element.classList.add('reveal-on-scroll');
+        observer.observe(element);
+      }
+    });
+  }
+
+  revealElements();
+
+  // Menu dirender oleh JavaScript, jadi pantau kartu baru juga.
+  const menu = document.querySelector('#menu');
+
+  if (menu) {
+    new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === 1) {
+            revealElements(node);
+          }
+        });
+      });
+    }).observe(menu, {
+      childList: true,
+      subtree: true
+    });
+  }
+})();
+
+/* FEEDBACK SENTUH TOMBOL TAMBAH */
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('.bag-button');
+  if (!button) return;
+
+  button.classList.remove('just-added');
+
+  // Memicu ulang animasi
+  void button.offsetWidth;
+  button.classList.add('just-added');
+
+  window.setTimeout(() => {
+    button.classList.remove('just-added');
+  }, 450);
+});
+
+/* FEEDBACK TAMBAH — CEPAT */
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('.bag-button');
+  if (!button) return;
+
+  button.classList.add('just-added');
+
+  window.setTimeout(() => {
+    button.classList.remove('just-added');
+  }, 220);
+});
