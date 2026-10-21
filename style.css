@@ -2220,3 +2220,437 @@ nav a:hover {
 .site-footer .footer-grid > div:nth-child(3) a {
   margin-top: 12px;
 }
+
+/* =====================================
+   FIX MOBILE MENU — MASAKAN EMAK
+   Tambahkan di akhir style.css
+===================================== */
+
+@media (max-width: 600px) {
+  /* Kartu menu lebih fleksibel */
+  .food-card {
+    min-width: 0;
+    padding: 10px;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  /* Gambar tetap proporsional */
+  .food-image {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  /* Nama dan harga tidak terdesak tombol */
+  .food-details {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    margin-top: 12px;
+  }
+
+  .food-name {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 600;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .food-price {
+    max-width: 100%;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  /* Tombol tidak menekan nama makanan */
+  .bag-button {
+    width: 100%;
+    min-width: 0;
+    flex: 0 0 auto;
+    height: 36px;
+    margin-top: 10px;
+    padding: 0 8px;
+    clip-path: none !important;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-family: inherit;
+    font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Hilangkan gagang tas dekoratif */
+  .bag-button::before {
+    display: none !important;
+  }
+
+  /* Jangan membuat tulisan Tambah kedua */
+  .bag-button::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Jarak antarkartu */
+  .menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: calc(100% - 22px);
+  }
+}
+
+/* HP sangat kecil */
+@media (max-width: 360px) {
+  .food-card {
+    padding: 8px;
+  }
+
+  .food-name {
+    font-size: 11px;
+  }
+
+  .food-price {
+    font-size: 11px;
+  }
+
+  .bag-button {
+    font-size: 10px;
+    padding: 0 5px;
+  }
+}
+
+/* PUSATKAN HEADER PADA TAMPILAN HP */
+@media (max-width: 650px) {
+  .glass-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 16px 14px;
+  }
+
+  .brand-area {
+    width: 100%;
+    text-align: center;
+  }
+
+  .logo {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 34px;
+    white-space: normal;
+  }
+
+  .brand-area p {
+    margin: 6px 0 0;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .header-right {
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-right nav {
+    width: 100%;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .search-order {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .search {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .search-order .order-main {
+    flex: 0 0 auto;
+    min-width: 120px;
+  }
+}
+
+/* FIX BAGIAN LOKASI DI HP */
+@media (max-width: 650px) {
+  .location-section {
+    width: calc(100% - 26px);
+    margin: 24px auto;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    box-sizing: border-box;
+  }
+
+  .location-copy {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .location-copy .location-eyebrow {
+    display: block;
+    font-size: 11px;
+  }
+
+  .location-copy h2,
+  .location-copy .location-eyebrow {
+    max-width: 100%;
+  }
+
+  .location-copy > p,
+  .location-copy .operating-hours {
+    max-width: 100%;
+  }
+
+  /* Peta tidak lagi menjadi strip vertikal */
+  .map-frame {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 260px;
+    min-height: 260px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .map-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: 0;
+  }
+
+  .maps-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+/* HP dengan layar lebih kecil */
+@media (max-width: 380px) {
+  .location-section {
+    padding: 17px 14px;
+  }
+
+  .map-frame {
+    height: 230px;
+    min-height: 230px;
+  }
+}
+
+/* Tujuan navigasi footer */
+#menu,
+#pesanan,
+#reservasi {
+  scroll-margin-top: 150px;
+}
+
+/* Panel pesanan terlihat saat menjadi tujuan tautan */
+#pesanan:target {
+  display: block;
+}
+
+/* FIX FLOATING KERANJANG DI HP */
+@media (max-width: 600px) {
+  .order-panel {
+    position: fixed;
+    z-index: 999;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+
+    width: auto;
+    max-width: 420px;
+    max-height: 48vh;
+    overflow-y: auto;
+
+    margin: 0 auto;
+    padding: 14px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(44, 24, 14, 0.28);
+  }
+
+  .order-panel h2 {
+    font-size: 18px;
+  }
+
+  .order-panel > div:first-child p {
+    font-size: 12px;
+    margin: 6px 0;
+  }
+
+  .cart-items {
+    margin: 8px 0;
+    padding: 6px 0;
+  }
+
+  .cart-row {
+    padding: 8px 0;
+    gap: 8px;
+  }
+
+  .cart-item-info strong {
+    font-size: 12px;
+  }
+
+  .cart-subtotal {
+    font-size: 12px;
+  }
+
+  .cart-actions {
+    gap: 6px;
+  }
+
+  .quantity-control {
+    gap: 5px;
+    padding: 3px;
+  }
+
+  .quantity-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 15px;
+  }
+
+  .remove-btn {
+    font-size: 11px;
+  }
+
+  .cart-bottom {
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .cart-bottom strong {
+    font-size: 14px;
+  }
+
+  .cart-bottom .order-main {
+    min-height: 38px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+}
+
+/* MINI CART — LEBIH RINGKAS DI HP */
+@media (max-width: 600px) {
+  .order-panel {
+    position: fixed !important;
+    z-index: 999 !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+
+    width: auto !important;
+    max-width: 360px !important;
+    max-height: 34vh !important;
+    overflow-y: auto !important;
+
+    margin: 0 auto !important;
+    padding: 10px 12px !important;
+    border-radius: 15px !important;
+  }
+
+  .order-panel h2 {
+    font-size: 15px !important;
+    margin: 0 !important;
+  }
+
+  .order-panel > div:first-child p {
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+    margin: 4px 0 !important;
+  }
+
+  .cart-items {
+    margin: 5px 0 !important;
+    padding: 4px 0 !important;
+  }
+
+  .cart-row {
+    padding: 5px 0 !important;
+    gap: 6px !important;
+  }
+
+  .cart-item-info {
+    gap: 3px !important;
+  }
+
+  .cart-item-info strong,
+  .cart-subtotal {
+    font-size: 11px !important;
+  }
+
+  .cart-actions {
+    gap: 5px !important;
+  }
+
+  .quantity-control {
+    gap: 4px !important;
+    padding: 2px !important;
+  }
+
+  .quantity-btn {
+    width: 23px !important;
+    height: 23px !important;
+    font-size: 13px !important;
+  }
+
+  .quantity-number {
+    font-size: 11px !important;
+  }
+
+  .remove-btn {
+    font-size: 10px !important;
+    padding: 4px 0 !important;
+  }
+
+  .cart-bottom {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 7px !important;
+  }
+
+  .cart-bottom strong {
+    font-size: 12px !important;
+    text-align: center !important;
+  }
+
+  .cart-bottom .order-main {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 34px !important;
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+  }
+}
