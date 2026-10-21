@@ -546,3 +546,1554 @@ nav a {
     font-size: 12px;
   }
 }
+
+
+/* REVIEW */
+.reviews-section,
+.reservation-section {
+  margin: 32px 0;
+  padding: 32px;
+  border-radius: 24px;
+  background: #f1f2f3;
+  color: #173247;
+}
+
+.section-eyebrow {
+  color: #e99b22;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.section-description {
+  color: #637083;
+  margin-bottom: 24px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.review-card {
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+}
+
+.review-stars {
+  color: #efa52d;
+  letter-spacing: 3px;
+}
+
+.review-card p {
+  line-height: 1.7;
+}
+
+.review-card strong,
+.review-card small {
+  display: block;
+  margin-top: 8px;
+}
+
+.review-card small,
+.location-note {
+  color: #687589;
+}
+
+/* RESERVASI */
+
+
+/* Form seperti buku catatan pesanan */
+.reservation-form {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: clamp(20px, 3vw, 34px);
+  background: #fffdf9;
+  border: 1px solid #eadfce;
+  border-radius: 18px;
+}
+
+.form-heading {
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #e1d1bd;
+}
+
+.form-heading h3 {
+  margin: 10px 0 6px;
+  color: #503b2e;
+  font-family: Georgia, serif;
+  font-size: clamp(21px, 2.3vw, 28px);
+}
+
+.form-heading p,
+.form-footnote {
+  color: #897767;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.form-heading p {
+  margin-bottom: 0;
+}
+
+.reservation-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+.reservation-form label {
+  color: #604938;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.reservation-form input,
+.reservation-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 13px 14px;
+  color: #503b2e;
+  background: #fffaf3;
+  border: 1px solid #e6d8c7;
+  border-radius: 9px;
+  font: inherit;
+}
+
+.reservation-form input:focus,
+.reservation-form textarea:focus {
+  outline: 2px solid #c28a61;
+  outline-offset: 2px;
+}
+
+.reservation-form textarea {
+  resize: vertical;
+}
+
+.reservation-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.reservation-submit {
+  width: 100%;
+  padding: 15px 18px;
+  color: white;
+  background: #8b573c;
+  border: none;
+  border-radius: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.reservation-submit:hover {
+  background: #67412e;
+}
+
+.form-footnote {
+  margin: 12px 0 0;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .reservation-section {
+    width: calc(100% - 28px);
+    margin: 32px auto;
+    padding: 22px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .reservation-form {
+    padding: 20px;
+  }
+
+  .reservation-fields {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .reservation-section {
+    width: calc(100% - 20px);
+    padding: 17px;
+  }
+
+  .reservation-form {
+    padding: 16px;
+  }
+
+  .reservation-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* LOKASI */
+.location-section {
+  margin: 32px 0;
+}
+
+.operating-hours {
+  margin: 24px 0;
+  line-height: 1.7;
+}
+
+/* FOOTER */
+.site-footer {
+  margin-top: 48px;
+  padding: 36px 24px 20px;
+  background: #102c40;
+  color: white;
+  border-radius: 20px 20px 0 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.footer-grid h4 {
+  color: #efae42;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.footer-grid a:not(.footer-button) {
+  display: block;
+  margin: 12px 0;
+  color: white;
+  text-decoration: none;
+}
+
+.footer-grid p {
+  line-height: 1.7;
+}
+
+.footer-button {
+  margin: 8px 8px 0 0;
+  background: #efa52d;
+  color: #102c40;
+  font-size: 13px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 18px;
+  border-top: 1px solid #496071;
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .reviews-grid,
+  .reservation-section,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reviews-section,
+  .reservation-section {
+    padding: 22px;
+  }
+
+  .reservation-fields {
+    gap: 10px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+  }
+}
+
+
+/* MASAKAN EMAK — WARM HOMEMADE THEME */
+:root {
+  --emak-cream: #fff8ed;
+  --emak-paper: #fffdf8;
+  --emak-brown: #654332;
+  --emak-terracotta: #b96846;
+  --emak-olive: #68734b;
+  --emak-text: #49382e;
+  --emak-muted: #827366;
+  --emak-border: #eadccd;
+}
+
+/* Review */
+.reviews-section,
+.reservation-section {
+  background: var(--emak-cream);
+  color: var(--emak-text);
+  border: 1px solid var(--emak-border);
+  border-radius: 20px;
+}
+
+.reviews-section h2,
+.reservation-info h2,
+.location-copy h2 {
+  color: var(--emak-brown);
+}
+
+.section-eyebrow {
+  color: var(--emak-terracotta);
+}
+
+.section-description,
+.review-card small,
+.location-note {
+  color: var(--emak-muted);
+}
+
+.review-card {
+  background: var(--emak-paper);
+  border: 1px solid var(--emak-border);
+  border-radius: 14px;
+  box-shadow: 0 5px 16px rgba(101, 67, 50, 0.05);
+}
+
+.review-stars {
+  color: #d69a32;
+}
+
+/* Form reservasi */
+.reservation-form input,
+.reservation-form textarea {
+  background: var(--emak-paper);
+  color: var(--emak-text);
+  border: 1px solid var(--emak-border);
+  border-radius: 10px;
+}
+
+.reservation-form input:focus,
+.reservation-form textarea:focus {
+  outline: 2px solid var(--emak-olive);
+  outline-offset: 1px;
+}
+
+.reservation-submit {
+  background: var(--emak-terracotta);
+  color: #fffdf8;
+  border-radius: 10px;
+}
+
+.reservation-submit:hover {
+  background: var(--emak-brown);
+}
+
+/* Lokasi */
+.location-section {
+  color: var(--emak-text);
+}
+
+.location-copy {
+  background: var(--emak-cream);
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.location-copy em {
+  color: var(--emak-terracotta);
+}
+
+.maps-link {
+  display: inline-block;
+  background: var(--emak-olive);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.map-frame {
+  overflow: hidden;
+  border: 1px solid var(--emak-border);
+  border-radius: 18px;
+}
+
+/* Footer */
+.site-footer {
+  background: var(--emak-brown);
+  color: #fff8ed;
+  border-radius: 18px 18px 0 0;
+}
+
+.footer-grid h4 {
+  color: #e8bd85;
+}
+
+.footer-grid a:not(.footer-button) {
+  color: #fff8ed;
+}
+
+.footer-button {
+  background: #e7c69b;
+  color: var(--emak-brown);
+  border-radius: 10px;
+}
+
+.footer-bottom {
+  border-top-color: rgba(255, 248, 237, 0.25);
+  color: #f0dfcf;
+}
+
+
+/* FOOTER MASAKAN EMAK — CLEAN & WARM */
+.site-footer {
+  box-sizing: border-box;
+  margin-top: 40px;
+  padding: 38px 32px 20px;
+  background: #f8efe2;
+  color: #49382e;
+  border: 1px solid #eadbc8;
+  border-radius: 18px 18px 0 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr 1.2fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.footer-grid > div {
+  min-width: 0;
+}
+
+.footer-logo {
+  margin: 0 0 14px;
+  color: #704832;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.footer-grid h4 {
+  margin: 4px 0 18px;
+  color: #a45e3b;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+
+.footer-grid p {
+  margin: 0 0 12px;
+  color: #716052;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.footer-grid a:not(.footer-button) {
+  display: block;
+  width: fit-content;
+  margin: 0 0 12px;
+  color: #594536;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.footer-grid a:not(.footer-button):hover {
+  color: #b96846;
+}
+
+.footer-button {
+  display: inline-block;
+  margin: 4px 5px 6px 0;
+  padding: 11px 16px;
+  background: #a45e3b;
+  color: #fffaf3;
+  border-radius: 8px;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.footer-button:hover {
+  background: #704832;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #e2d1bd;
+  color: #806d5c;
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .site-footer {
+    padding: 28px 20px 18px;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+/* WARNA TOMBOL — KONSISTEN MASAKAN EMAK */
+:root {
+  --emak-orange: #e94b16;
+  --emak-orange-hover: #c83b0c;
+  --emak-brown: #503326;
+}
+
+/* Tombol reservasi */
+.reservation-submit {
+  background: var(--emak-orange);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 700;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.reservation-submit:hover {
+  background: var(--emak-orange-hover);
+  transform: translateY(-1px);
+}
+
+/* Tombol footer */
+.footer-button {
+  background: var(--emak-orange);
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+.footer-button:hover {
+  background: var(--emak-orange-hover);
+  color: #ffffff;
+}
+
+/* Seragamkan tipografi bagian reservasi */
+.reservation-section,
+.reservation-section input,
+.reservation-section textarea,
+.reservation-section button {
+  font-family: inherit;
+}
+
+.reservation-info h2,
+.form-heading h3,
+.reservation-stamp strong {
+  color: var(--emak-brown);
+}
+
+/* Samakan aksen judul */
+.reservation-kicker,
+.form-heading > span {
+  color: var(--emak-orange);
+}
+
+
+/* Pastikan isi tidak terdorong terlalu ke bawah */
+.reservation-section {
+  align-items: center;
+}
+
+@media (max-width: 760px) {
+  .reservation-info {
+    padding: 0;
+  }
+
+  .reservation-kicker {
+    margin-bottom: 10px;
+  }
+
+  .reservation-info h2 {
+    margin-bottom: 10px;
+  }
+
+  .reservation-stamp {
+    margin-top: 16px;
+  }
+}
+
+/* RESERVASI MASAKAN EMAK — FINAL */
+.reservation-section {
+  box-sizing: border-box;
+  width: calc(100% - 48px);
+  max-width: 1120px;
+  margin: 32px auto;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 32px;
+  align-items: center;
+  background: #fff8ed;
+  color: #503326;
+  border: 1px solid #eadccd;
+  border-radius: 20px;
+}
+
+.reservation-info {
+  min-width: 0;
+  align-self: center;
+  padding: 0;
+}
+
+.reservation-kicker {
+  display: block;
+  margin: 0 0 12px;
+  color: #e94b16;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.reservation-info h2 {
+  max-width: 390px;
+  margin: 0 0 12px;
+  color: #503326;
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.2;
+}
+
+.reservation-info > p {
+  max-width: 390px;
+  margin: 0;
+  color: #786655;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.reservation-stamp {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed #d7c1a8;
+}
+
+.reservation-stamp span {
+  color: #a45e3b;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.reservation-stamp strong {
+  color: #503326;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+}
+
+.reservation-form {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 24px;
+  background: #fffdf9;
+  border: 1px solid #eadfce;
+  border-radius: 16px;
+}
+
+.form-heading {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed #e1d1bd;
+}
+
+.form-heading h3 {
+  margin: 0 0 6px;
+  color: #503326;
+  font-size: 23px;
+}
+
+.form-heading p,
+.form-footnote {
+  color: #897767;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.form-heading p {
+  margin: 0;
+}
+
+.reservation-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.reservation-form label {
+  color: #604938;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.reservation-form input,
+.reservation-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  color: #503b2e;
+  background: #fffaf3;
+  border: 1px solid #e6d8c7;
+  border-radius: 9px;
+  font: inherit;
+}
+
+.reservation-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.reservation-submit {
+  width: 100%;
+  padding: 13px;
+  color: white;
+  background: #e94b16;
+  border: 0;
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reservation-submit:hover {
+  background: #c83b0c;
+}
+
+.form-footnote {
+  margin: 8px 0 0;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .reservation-section {
+    width: calc(100% - 28px);
+    margin: 24px auto;
+    padding: 20px;
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .reservation-form {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .reservation-section {
+    width: calc(100% - 20px);
+    padding: 16px;
+  }
+
+  .reservation-form {
+    padding: 14px;
+  }
+
+  .reservation-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* SISI KIRI RESERVASI — LEBIH BERISI */
+.reservation-section .reservation-info {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.reservation-section .reservation-kicker {
+  margin-bottom: 16px;
+}
+
+.reservation-section .reservation-info h2 {
+  max-width: 400px;
+  font-size: clamp(32px, 3.2vw, 42px);
+  line-height: 1.16;
+  margin: 0 0 18px;
+}
+
+.reservation-section .reservation-info > p {
+  max-width: 390px;
+  font-size: 15px;
+  line-height: 1.85;
+  margin: 0;
+}
+
+.reservation-section .reservation-stamp {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e4cbb4;
+}
+
+.reservation-section .reservation-stamp span {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  color: #b96846;
+}
+
+.reservation-section .reservation-stamp strong {
+  font-size: 22px;
+  margin-top: 5px;
+}
+
+/* Tambahkan aksen dekoratif yang halus */
+.reservation-section .reservation-stamp::after {
+  content: "♡";
+  display: block;
+  margin-top: 22px;
+  color: #e94b16;
+  font-size: 30px;
+  line-height: 1;
+}
+
+@media (max-width: 760px) {
+  .reservation-section .reservation-info {
+    padding: 0;
+  }
+
+  .reservation-section .reservation-info h2 {
+    font-size: 32px;
+  }
+
+  .reservation-section .reservation-stamp {
+    margin-top: 20px;
+    padding-top: 14px;
+  }
+
+  .reservation-section .reservation-stamp::after {
+    margin-top: 14px;
+  }
+}
+
+
+/* LOKASI MASAKAN EMAK — NATURAL */
+.location-section {
+  width: min(1120px, calc(100% - 48px));
+  margin: 48px auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 48px;
+  align-items: center;
+  color: #503326;
+}
+
+.location-copy {
+  padding: 12px 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.location-copy h2 {
+  margin: 10px 0 14px;
+  color: #503326;
+  line-height: 1.3;
+}
+
+.location-copy > p {
+  color: #786655;
+  line-height: 1.8;
+}
+
+.location-address {
+  margin-top: 20px;
+}
+
+.operating-hours {
+  margin: 24px 0;
+}
+
+.operating-hours h3 {
+  margin-bottom: 8px;
+  color: #503326;
+}
+
+.location-note {
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.maps-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 20px;
+  background: #e94b16;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.maps-link:hover {
+  background: #c83b0c;
+}
+
+.map-frame {
+  min-width: 0;
+  height: 390px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f3eadf;
+}
+
+.map-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (max-width: 760px) {
+  .location-section {
+    width: calc(100% - 32px);
+    margin: 32px auto;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .location-copy {
+    padding: 0;
+  }
+
+  .map-frame {
+    height: 300px;
+  }
+}
+.location-section {
+  width: min(1200px, calc(100% - 48px));
+  margin: 64px auto;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 48px;
+  align-items: center;
+
+  background: #fffaf4;
+  border: 1px solid #f0dfcf;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(55, 27, 15, 0.12);
+}
+
+/* Perbesar tulisan KUNJUNGI KAMI */
+.location-eyebrow {
+  font-size: 35px;
+  letter-spacing: 1.3px;
+}
+
+/* Perbesar hari dan jam operasional */
+.operating-hours p {
+  font-size: 20px;
+  line-height: 1.5;
+}
+/* Rapikan jarak bagian lokasi */
+.location-eyebrow {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.location-copy h2 {
+  margin-bottom: 10px;
+}
+
+.location-copy > p:first-of-type {
+  margin-top: 0;
+  margin-bottom: 22px;
+}
+
+.location-address {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.operating-hours h3 {
+  margin-top: 0;
+  margin-bottom: 0px;
+}
+
+.operating-hours p {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+.maps-link {
+  margin-top: 0;
+}
+
+/* Floating Pesanan Saya */
+.order-panel {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 320px;
+  max-height: 70vh;
+  overflow-y: auto;
+  z-index: 999;
+  padding: 20px;
+  background: #fffaf4;
+  border: 1px solid #ead8c6;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(55, 27, 15, 0.18);
+}
+
+@media (max-width: 700px) {
+  .order-panel {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100% - 24px);
+    max-height: 45vh;
+    padding: 16px;
+    border-radius: 16px;
+  }
+}
+
+/* Rapikan section review */
+.review-section {
+  width: min(1120px, calc(100% - 48px));
+  margin: 56px auto;
+  padding: 32px;
+  box-sizing: border-box;
+  border-radius: 24px;
+  background: #fff8ef;
+}
+
+/* Judul review */
+.review-section > .section-eyebrow {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.review-section h2 {
+  margin: 0 0 12px;
+  line-height: 1.25;
+}
+
+.review-section > p {
+  margin: 0 0 24px;
+  line-height: 1.7;
+}
+
+/* Susunan kartu ulasan */
+.review-section .review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.review-section .review-card {
+  min-width: 0;
+  padding: 24px;
+  box-sizing: border-box;
+  border: 1px solid #ead9c9;
+  border-radius: 16px;
+  background: #fffdf9;
+  box-shadow: 0 6px 18px rgba(55, 27, 15, 0.05);
+}
+
+@media (max-width: 760px) {
+  .review-section {
+    width: calc(100% - 28px);
+    margin: 32px auto;
+    padding: 22px 16px;
+  }
+
+  .review-section .review-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+/* ===== MENU PREMIUM MASAKAN EMAK ===== */
+
+.menu-grid {
+  width: min(1200px, calc(100% - 64px));
+  margin: 24px auto 48px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+  padding-bottom: 44px;
+}
+
+.food-card {
+  min-width: 0;
+  padding: 12px 12px 18px;
+  background: #fffaf4;
+  border: 1px solid rgba(234, 217, 201, 0.8);
+  border-radius: 22px;
+  box-shadow: 0 8px 22px rgba(55, 27, 15, 0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.food-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(55, 27, 15, 0.16);
+}
+
+.food-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 0.9;
+  object-fit: cover;
+  border-radius: 15px;
+  border: none;
+  box-shadow: none;
+  background: #f3e5d7;
+}
+
+.food-details {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.food-details > div {
+  min-width: 0;
+}
+
+.food-name {
+  margin: 0 0 7px;
+  color: #371b0f;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.food-price {
+  margin: 0;
+  color: #d83208;
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.bag-button {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d83208;
+  color: white;
+  border: none;
+  border-radius: 13px;
+  clip-path: none;
+  font-size: 21px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bag-button::before {
+  display: none;
+}
+
+.bag-button:hover {
+  background: #a92508;
+  transform: scale(1.06);
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .menu-grid {
+    width: calc(100% - 40px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+/* HP */
+@media (max-width: 600px) {
+  .menu-grid {
+    width: calc(100% - 28px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .food-card {
+    padding: 9px;
+    border-radius: 16px;
+  }
+
+  .food-image {
+    aspect-ratio: 1 / 0.95;
+    border-radius: 11px;
+  }
+
+  .food-details {
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .food-name {
+    font-size: 12px;
+  }
+
+  .food-price {
+    font-size: 12px;
+  }
+
+  .bag-button {
+    flex-basis: 32px;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    font-size: 17px;
+  }
+}
+
+/* ===== FLOATING CART ===== */
+.order-panel {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1500;
+
+  width: min(380px, calc(100% - 32px));
+  max-height: 70vh;
+  overflow-y: auto;
+
+  margin: 0;
+  padding: 22px;
+  background: #fffaf4;
+  border: 1px solid #ead9c8;
+  border-radius: 22px;
+  box-shadow: 0 18px 50px rgba(55, 27, 15, 0.22);
+
+  display: none;
+}
+
+.order-panel.visible {
+  display: block;
+}
+
+.order-panel h2 {
+  font-size: 21px;
+  margin: 0 0 8px;
+}
+
+.order-panel > div:first-child p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.cart-items {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .order-panel {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100% - 24px);
+    max-height: 55vh;
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .cart-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .cart-bottom .order-main {
+    width: 100%;
+  }
+}
+
+/* ===== IDENTITAS VISUAL MASAKAN EMAK ===== */
+
+:root {
+  --orange: #c9340d;
+  --orange2: #e74618;
+  --ink: #402317;
+  --cream: #fff8ef;
+}
+
+/* Background lebih lembut */
+.page-bg:after {
+  background: rgba(255, 248, 239, 0.28);
+  backdrop-filter: blur(5px);
+}
+
+/* Navbar lebih elegan */
+.glass-header {
+  background: rgba(255, 250, 245, 0.94);
+  box-shadow: 0 6px 24px rgba(64, 35, 23, 0.07);
+  border-radius: 0 0 24px 24px;
+}
+
+/* Logo lebih menonjol */
+.logo {
+  color: #402317;
+  letter-spacing: -1.5px;
+}
+
+.brand-area p {
+  color: #735746;
+}
+
+/* Kategori lebih rapi */
+.category-bar {
+  margin-top: 8px;
+  margin-bottom: 28px;
+}
+
+.category-chip {
+  padding: 12px 23px;
+  border-color: #e9cbb7;
+  background: #fffaf5;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.category-chip:hover {
+  transform: translateY(-2px);
+}
+
+/* Transisi kartu menu */
+.food-card {
+  border-color: #f0e0d2;
+}
+
+/* Fokus input pencarian */
+.search:focus-within {
+  outline: 2px solid #d9a58b;
+  outline-offset: 2px;
+}
+
+/* Scroll menuju section tidak tertutup navbar */
+#menu,
+#review,
+#reservasi,
+#lokasi {
+  scroll-margin-top: 125px;
+}
+
+/* Navigasi lebih jelas */
+nav a {
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--orange);
+}
+
+@media (max-width: 650px) {
+  #menu,
+  #review,
+  #reservasi,
+  #lokasi {
+    scroll-margin-top: 155px;
+  }
+
+  .category-bar {
+    margin-bottom: 20px;
+  }
+
+  .category-chip {
+    padding: 10px 16px;
+  }
+}
+
+.bag-button {
+  flex: 0 0 auto;
+  min-width: 84px;
+  height: 38px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: #d83208;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bag-button span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.bag-button::before {
+  display: none;
+}
+
+.bag-button:hover {
+  background: #a92508;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .bag-button {
+    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0;
+  }
+
+  .bag-button span {
+    font-size: 20px;
+  }
+}
+/* ===== FINAL FLOATING CART ===== */
+.order-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1500;
+  width: min(360px, calc(100% - 32px));
+  max-height: 65vh;
+  overflow-y: auto;
+  padding: 20px;
+  margin: 0;
+  box-sizing: border-box;
+  background: #fffaf4;
+  border: 1px solid #ead9c8;
+  border-radius: 20px;
+  box-shadow: 0 12px 36px rgba(55, 27, 15, 0.2);
+  display: none;
+}
+
+.order-panel.visible {
+  display: block;
+}
+
+.order-panel .cart-items {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.order-panel .cart-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .order-panel {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100% - 24px);
+    max-height: 55vh;
+    padding: 16px;
+  }
+}
+
+/* ===== FINAL RESPONSIVE CHECK ===== */
+
+@media (max-width: 600px) {
+  .glass-header {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .header-right {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .search-order {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .search {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .search-order .order-main {
+    flex-shrink: 0;
+    padding: 12px 16px;
+  }
+
+  .category-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .menu-grid {
+    width: calc(100% - 24px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .food-card {
+    min-width: 0;
+  }
+
+  .food-name {
+    overflow-wrap: anywhere;
+  }
+
+  .food-price {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .reservation-section,
+  .review-section,
+  .location-section {
+    max-width: calc(100% - 24px);
+  }
+
+  .reservation-section {
+    grid-template-columns: 1fr;
+  }
+
+  .review-section .review-grid {
+    grid-template-columns: 1fr;
+  }
+}

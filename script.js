@@ -79,7 +79,7 @@ function renderMenu() {
           type="button"
           aria-label="Tambah ${item.name} ke pesanan"
           title="Tambah ke pesanan"
-        >🛍</button>
+        >+ Tambah</button>
       </div>
     `;
 
@@ -236,13 +236,6 @@ function checkout() {
 search.addEventListener("input", renderMenu);
 
 document.getElementById("searchBtn").addEventListener("click", renderMenu);
-
-// Membuka bagian keranjang saat tombol Pesanan diklik.
-document.querySelector('a.order-main[href="#pesanan"]')
-  .addEventListener("click", () => {
-    cartPanel.classList.add("visible");
-  });
-
 
 document.querySelector(".category-bar").addEventListener("click", (event) => {
   const tombol = event.target.closest("[data-category]");
@@ -533,3 +526,36 @@ document.getElementById("checkoutBtn")
 renderMenu();
 renderCart();
 
+
+const reservationForm = document.getElementById("reservationForm");
+
+if (reservationForm) {
+  reservationForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("reservationName").value.trim();
+    const date = document.getElementById("reservationDate").value;
+    const time = document.getElementById("reservationTime").value;
+    const guests = document.getElementById("reservationGuests").value;
+    const notes = document.getElementById("reservationNotes").value.trim();
+
+    const whatsappNumber = "6281234567890"; // GANTI dengan nomor yang benar
+
+    const message = [
+      "Halo Masakan Emak, saya ingin mengajukan reservasi meja.",
+      "",
+      `Nama: ${name}`,
+      `Tanggal: ${date}`,
+      `Jam: ${time}`,
+      `Jumlah orang: ${guests}`,
+      `Catatan: ${notes || "-"}`,
+      "",
+      "Mohon konfirmasi ketersediaan meja. Terima kasih."
+    ].join("\n");
+
+    const whatsappUrl =
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  });
+}

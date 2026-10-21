@@ -26,12 +26,12 @@
     <nav>
       <a class="active" href="#beranda">Beranda</a>
       <a href="#menu">Menu</a>
-      <a href="#pesanan">Pesanan</a>
+      <a href="#review">Review</a>
       <a href="#lokasi">Lokasi</a>
     </nav>
     <div class="search-order">
       <label class="search"><input id="searchInput" type="search" placeholder="Cari masakan disini..." aria-label="Cari masakan"><button id="searchBtn" aria-label="Cari">⌕</button></label>
-      <a class="order-main" href="#pesanan">Pesanan</a>
+      <a class="order-main" href="#reservasi">Reservasi</a>
     </div>
   </div>
 </header>
@@ -56,45 +56,199 @@
       <button id="checkoutBtn" class="order-main">Pesan via WhatsApp</button>
     </div>
   </section>
-  
+
+
+<!-- REVIEW PELANGGAN -->
+<section class="review-section" id="review">
+  <p class="section-eyebrow">KATA PELANGGAN</p>
+  <h2>Pengalaman Bersantap di Masakan Emak</h2>
+  <p class="section-description">
+    Kami ingin setiap hidangan menghadirkan rasa nyaman seperti masakan rumah.
+  </p>
+
+  <div class="reviews-grid">
+    <article class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p>"Menu rumahan yang cocok untuk makan bersama keluarga."</p>
+      <strong>Pelanggan 1</strong>
+      <small>Contoh ulasan demo</small>
+    </article>
+
+    <article class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p>"Pilihan menu beragam dan suasananya terasa akrab."</p>
+      <strong>Pelanggan 2</strong>
+      <small>Contoh ulasan demo</small>
+    </article>
+
+    <article class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p>"Pilihan yang menarik untuk makan siang bersama."</p>
+      <strong>Pelanggan 3</strong>
+      <small>Contoh ulasan demo</small>
+    </article>
+  </div>
+</section>
+
+<!-- RESERVASI MEJA -->
+
+<section class="reservation-section" id="reservasi">
+  <div class="reservation-info">
+    <span class="reservation-kicker">DARI DAPUR EMAK</span>
+    <h2>Makan enak, kumpul lebih hangat.</h2>
+    <p>
+      Lagi pengen makan enak bareng orang tersayang?
+      Yuk, rencanakan kunjunganmu dulu biar kami bisa
+      menyambutmu dengan hangat!
+    </p>
+
+
+    <div class="reservation-stamp">
+      <span>MASAKAN EMAK</span>
+      <strong>Dimasak dengan hati</strong>
+    </div>
+  </div>
+
+  <form id="reservationForm" class="reservation-form">
+    <div class="form-heading">
+      <h3>Rencanakan kedatanganmu</h3>
+      <p>Isi detail singkat di bawah ini.</p>
+    </div>
+
+    <div class="form-field">
+      <label for="reservationName">Nama pemesan</label>
+      <input id="reservationName" name="name"
+        type="text" placeholder="Siapa yang akan datang?" required>
+    </div>
+
+    <div class="reservation-fields">
+      <div class="form-field">
+        <label for="reservationDate">Tanggal datang</label>
+        <input id="reservationDate" name="date" type="date" required>
+      </div>
+
+      <div class="form-field">
+        <label for="reservationTime">Perkiraan jam</label>
+        <input id="reservationTime" name="time" type="time" required>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="reservationGuests">Berapa orang yang datang?</label>
+      <input id="reservationGuests" name="guests"
+        type="number" min="1" max="100"
+        placeholder="Contoh: 5 orang" required>
+    </div>
+
+    
+    <div class="form-field">
+      <label for="reservationNotes">Catatan khusus makanan (opsional)</label>
+      <textarea
+        id="reservationNotes"
+        name="notes"
+        rows="3"
+        placeholder="Contoh: tidak pedas, tanpa sambal, alergi kacang, atau permintaan menu khusus..."
+      ></textarea>
+    </div>
+
+
+    <button type="submit" class="reservation-submit">
+      Kirim Rencana Kunjungan
+    </button>
+    <p class="form-footnote">
+      Pengajuan akan dikirim melalui WhatsApp untuk konfirmasi.
+    </p>
+  </form>
+</section>
+
+
+
+
 <section class="location-section" id="lokasi">
   <div class="location-copy">
-    <p class="location-eyebrow">KUNJUNGI KAMI</p>
-    <h2>Lokasi <em>Masakan Emak</em></h2>
-    <p>Temukan lokasi restoran kami melalui peta di bawah ini.</p>
+    <span class="location-eyebrow">KUNJUNGI KAMI</span>
+
 
     <p class="location-address">
-      📍 Jl. Melati No. 12, Jakarta Selatan
+      📍 Jl. Raya Serpong No. 88, Tangerang Selatan, Banten
     </p>
+
+    <div class="operating-hours">
+      <h3>Jam Operasional</h3>
+
+      <p>
+        Senin–Jumat: 10.00–21.00 WIB<br>
+        Sabtu–Minggu: 08.00–22.00 WIB
+      </p>
+    </div>
+
     <p class="location-note">
-      Bagian lokasi ini masih berupa contoh untuk kebutuhan demo.
+      Nikmati masakan rumahan dengan cita rasa khas
+      dan suasana hangat bersama keluarga.
     </p>
 
     <a
       class="maps-link"
-      href="https://www.google.com/maps/search/?api=1&query=Jl.+Melati+No.+12+Jakarta+Selatan"
+      href="https://www.google.com/maps/search/?api=1&query=Jl.+Raya+Serpong+No.+88+Tangerang+Selatan"
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
     >
-      Buka di Google Maps ↗
+      Buka di Google Maps
     </a>
   </div>
 
   <div class="map-frame">
     <iframe
-      title="Peta lokasi Masakan Emak"
-      src="https://maps.google.com/maps?q=Jl.%20Melati%20No.%2012%2C%20Jakarta%20Selatan&z=14&output=embed"
+      src="https://maps.google.com/maps?q=Jl.%20Raya%20Serpong%20No.%2088%2C%20Tangerang%20Selatan&t=&z=14&ie=UTF8&iwloc=&output=embed"
       loading="lazy"
-      allowfullscreen
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Lokasi Masakan Emak"
+    ></iframe>
   </div>
 </section>
 
-  <footer>
-    <span class="footer-logo">Masakan Emak</span>
-    <span>Demo portofolio PortofolioKu — menu, harga, dan kontak adalah contoh.</span>
-  </footer>
+
+  
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h3 class="footer-logo">Masakan Emak</h3>
+      <p>Hidangan rumahan, rasa penuh kehangatan.</p>
+    </div>
+
+    <div>
+      <h4>HALAMAN</h4>
+      <a href="#beranda">Beranda</a>
+      <a href="#menu">Menu</a>
+      <a href="#review">Review</a>
+      <a href="#lokasi">Lokasi</a>
+    </div>
+
+    <div>
+      <h4>INFORMASI</h4>
+      <p>Alamat: akan diperbarui</p>
+      <p>Jam operasional: akan diperbarui</p>
+      <p>Kontak: melalui WhatsApp</p>
+    </div>
+
+    <div>
+      <h4>PESANAN & RESERVASI</h4>
+      <p>Pesan makanan atau ajukan reservasi melalui WhatsApp.</p>
+      <a class="footer-button" href="#reservasi">
+        Reservasi
+      </a>
+      <a class="footer-button" href="#pesanan">
+        Pesan Makanan
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Masakan Emak</span>
+    <span>Website Demo Portofolio</span>
+  </div>
+</footer>
+
 </main>
 <script src="script.js"></script>
 </body>
