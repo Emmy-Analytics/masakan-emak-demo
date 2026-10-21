@@ -559,3 +559,45 @@ if (reservationForm) {
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   });
 }
+
+
+/* FLOATING CART — BUKA/TUTUP */
+(() => {
+  const toggle = document.getElementById('cartFloatToggle');
+  const countBadge = document.getElementById('cartFloatCount');
+  const cartCount = document.getElementById('cartCount');
+  const panel = document.getElementById('pesanan');
+
+  if (!toggle || !countBadge || !cartCount || !panel) return;
+
+  function syncCartCount() {
+    countBadge.textContent = cartCount.textContent.trim() || '0';
+  }
+
+  function setCartOpen(open) {
+    document.body.classList.toggle('cart-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute(
+      'aria-label',
+      open ? 'Tutup keranjang pesanan' : 'Buka keranjang pesanan'
+    );
+  }
+
+  toggle.addEventListener('click', () => {
+    setCartOpen(!document.body.classList.contains('cart-open'));
+  });
+
+  // Tutup dengan tombol Escape
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setCartOpen(false);
+  });
+
+  // Perbarui badge ketika jumlah keranjang berubah
+  new MutationObserver(syncCartCount).observe(cartCount, {
+    childList: true,
+    characterData: true,
+    subtree: true
+  });
+
+  syncCartCount();
+})();

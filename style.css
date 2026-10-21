@@ -2654,3 +2654,81 @@ nav a:hover {
     font-size: 11px !important;
   }
 }
+
+
+/* FLOATING CART — MODE MINI */
+.cart-float-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 20px;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #e94b16;
+  color: white;
+  box-shadow: 0 6px 22px rgba(55, 27, 15, .22);
+  font: 700 13px 'DM Sans', sans-serif;
+  cursor: pointer;
+}
+
+.cart-float-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 50%;
+  background: white;
+  color: #d83208;
+  font-size: 11px;
+}
+
+/* Keranjang tertutup secara default */
+.order-panel,
+.order-panel.visible {
+  display: none !important;
+}
+
+/* Tampilkan hanya ketika dibuka */
+body.cart-open .order-panel,
+body.cart-open .order-panel.visible {
+  display: block !important;
+  position: fixed !important;
+  z-index: 1999 !important;
+  right: 18px !important;
+  bottom: 78px !important;
+  left: auto !important;
+  width: min(360px, calc(100vw - 24px)) !important;
+  max-width: 360px !important;
+  max-height: 55vh !important;
+  overflow-y: auto !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  border-radius: 18px !important;
+  background: #fffaf4;
+  box-shadow: 0 10px 35px rgba(55, 27, 15, .25);
+}
+
+/* Ukuran yang nyaman di HP */
+@media (max-width: 600px) {
+  .cart-float-toggle {
+    right: 12px;
+    bottom: 14px;
+    padding: 11px 14px;
+  }
+
+  body.cart-open .order-panel,
+  body.cart-open .order-panel.visible {
+    right: 12px !important;
+    bottom: 68px !important;
+    width: min(340px, calc(100vw - 24px)) !important;
+    max-height: 48vh !important;
+    padding: 13px !important;
+  }
+}
