@@ -3,7 +3,7 @@ const WHATSAPP_NUMBER = "6281234567890";
 // Format Indonesia: 62 diikuti nomor HP tanpa angka 0 di depan.
 
 
-const menu = [
+let menu = [
   // MAKANAN
   { name: "Tumis Tempe", price: 5000, photo: "images/tumis-tempe.jpg", category: "Makanan" },
   { name: "Ayam Goreng", price: 9900, photo: "images/ayam-goreng.jpg", category: "Makanan" },
@@ -527,6 +527,130 @@ renderMenu();
 renderCart();
 
 
+/* ===== GOOGLE SHEETS MENU API ===== */
+
+const MENU_API_URL =
+  "https://script.google.com/macros/s/AKfycbwnkojK3Ylt2KODn8rFPLeoTQSVs6Y-4rtySvMqz8xs6T3Pxfq2hB02onEoA2xL5s8/exec";
+
+function ambilMenuDariGoogleSheets() {
+  return new Promise((resolve, reject) => {
+    const callbackName =
+      "menuCallback_" + Date.now() + "_" +
+      Math.floor(Math.random() * 10000);
+
+    const scriptTag = document.createElement("script");
+    let selesai = false;
+
+    const timeout = setTimeout(() => {
+      bersihkan();
+      reject(new Error("Waktu pengambilan menu habis."));
+    }, 15000);
+
+    function bersihkan() {
+      if (selesai) return;
+      selesai = true;
+      clearTimeout(timeout);
+      delete window[callbackName];
+      scriptTag.remove();
+    }
+
+    window[callbackName] = (data) => {
+      bersihkan();
+
+      if (!data || !Array.isArray(data.items)) {
+        reject(new Error("Data menu tidak valid."));
+        return;
+      }
+
+      window.menuSettings = data.settings || {};
+      window.menuOperatingHours = data.operatingHours || [];
+      resolve(data.items);
+    };
+
+    scriptTag.onerror = () => {
+      bersihkan();
+      reject(new Error("Gagal menghubungi API menu."));
+    };
+
+    scriptTag.src =
+      MENU_API_URL + "?callback=" +
+      encodeURIComponent(callbackName);
+
+    document.head.appendChild(scriptTag);
+  });
+}
+
+ambilMenuDariGoogleSheets()
+  .then((items) => {
+    tampilkanPengaturanRestoran();
+    // Gunakan menu cadangan jika spreadsheet masih kosong.
+    if (items.length === 0) {
+      console.warn("Data menu kosong. Menu cadangan digunakan.");
+      return;
+    }
+
+    
+    function siapkanUrlFoto(url) {
+      const value = String(url || "").trim();
+
+      if (!value) return "";
+
+      if (!value.includes("drive.google.com")) {
+        return value;
+      }
+
+      const match =
+        value.match(/\/file\/d\/([^/?#]+)/) ||
+        value.match(/[?&]id=([^&#]+)/);
+
+      if (!match || !match[1]) return value;
+
+      return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+    }
+
+
+    const menuTerbaru = items.map((item) => ({
+      id: String(item.id || ""),
+      name: String(item.name || ""),
+      price: Number(item.price) || 0,
+      photo: siapkanUrlFoto(item.image),
+      category: String(item.category || "")
+    })).filter((item) =>
+      item.name &&
+      item.price >= 0 &&
+      ["Makanan", "Minuman", "Dessert"].includes(item.category)
+    );
+
+    if (menuTerbaru.length === 0) {
+      console.warn("Data menu tidak valid. Menu cadangan digunakan.");
+      return;
+    }
+
+    // Ganti menu di website dengan data terbaru dari Sheets.
+    menu = menuTerbaru;
+
+    // Hapus item keranjang yang sudah tidak tersedia.
+    for (const name of cart.keys()) {
+      if (!menu.some((item) => item.name === name)) {
+        cart.delete(name);
+      }
+    }
+
+    // Perbarui kartu menu dan total keranjang.
+    renderMenu();
+    renderCart();
+
+    console.log("Menu berhasil dimuat dari Google Sheets:", menu.length);
+  })
+  .catch((error) => {
+    // Jika API gagal, website tetap memakai menu cadangan.
+    console.warn(
+      "API menu gagal. Menggunakan menu cadangan.",
+      error
+    );
+  });
+
+
 const reservationForm = document.getElementById("reservationForm");
 
 if (reservationForm) {
@@ -697,3 +821,138 @@ document.addEventListener('click', (event) => {
     button.classList.remove('just-added');
   }, 220);
 });
+
+
+
+function tampilkanPengaturanRestoran() {
+  const settings = window.menuSettings || {};
+  const hours = window.menuOperatingHours || [];
+
+  // Perbarui alamat restoran
+  const alamat = document.getElementById('alamatRestoran');
+  if (alamat && settings.alamat) {
+    alamat.textContent = '📍 ' + settings.alamat;
+  }
+
+  const alamatFooter = document.getElementById('alamatFooter');
+  if (alamatFooter && settings.alamat) {
+    alamatFooter.textContent = '📍 ' + settings.alamat;
+  }
+
+  // Perbarui tautan Google Maps
+  const maps = document.getElementById('mapsRestoran');
+  if (maps && settings.maps_url) {
+    maps.href = settings.maps_url;
+  }
+
+  // Perbarui jam operasional
+  const jam = document.getElementById('jamOperasionalRestoran');
+
+  if (jam && hours.length > 0) {
+    const judul = jam.querySelector('h3');
+    jam.replaceChildren();
+
+    if (judul) {
+      jam.appendChild(judul);
+    } else {
+      const heading = document.createElement('h3');
+      heading.textContent = 'Jam Operasional';
+      jam.appendChild(heading);
+    }
+
+    const daftarJam = document.createElement('p');
+
+    daftarJam.style.whiteSpace = 'pre-line';
+    
+    const hariKerja = hours.filter(item =>
+      ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'].includes(item.day)
+    );
+
+    const akhirPekan = hours.filter(item =>
+      ['Sabtu', 'Minggu'].includes(item.day)
+    );
+
+    function formatJadwal(daftarHari, label) {
+      if (daftarHari.length === 0) return '';
+
+      const pertama = daftarHari[0];
+
+      const jadwalSama = daftarHari.every(item =>
+        item.open === pertama.open &&
+        item.close === pertama.close &&
+        item.closed === pertama.closed
+      );
+
+      if (jadwalSama) {
+        return pertama.closed
+          ? `${label}: Tutup`
+          : `${label}: ${pertama.open}–${pertama.close} WIB`;
+      }
+
+      return daftarHari.map(item =>
+        item.closed
+          ? `${item.day}: Tutup`
+          : `${item.day}: ${item.open}–${item.close} WIB`
+      ).join('\n');
+    }
+
+    daftarJam.textContent = [
+      formatJadwal(hariKerja, 'Senin–Jumat'),
+      formatJadwal(akhirPekan, 'Sabtu–Minggu')
+    ].filter(Boolean).join('\n');
+
+
+    jam.appendChild(daftarJam);
+  }
+    // Perbarui jam operasional footer
+  const jamFooter = document.getElementById('jamFooter');
+
+  if (jamFooter && hours.length > 0) {
+    const hariKerja = hours.filter(item =>
+      ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'].includes(item.day)
+    );
+
+    const akhirPekan = hours.filter(item =>
+      ['Sabtu', 'Minggu'].includes(item.day)
+    );
+
+    function formatJamFooter(daftarHari, label) {
+      if (daftarHari.length === 0) return '';
+
+      const pertama = daftarHari[0];
+      const jadwalSama = daftarHari.every(item =>
+        item.open === pertama.open &&
+        item.close === pertama.close &&
+        item.closed === pertama.closed
+      );
+
+      if (jadwalSama) {
+        return pertama.closed
+          ? `${label}: Tutup`
+          : `${label}: ${pertama.open}–${pertama.close} WIB`;
+      }
+
+      return daftarHari.map(item =>
+        item.closed
+          ? `${item.day}: Tutup`
+          : `${item.day}: ${item.open}–${item.close} WIB`
+      ).join('\n');
+    }
+
+    jamFooter.replaceChildren();
+
+    const judulJam = document.createElement('p');
+    judulJam.textContent = 'Jam operasional:';
+    jamFooter.appendChild(judulJam);
+
+    [
+      formatJamFooter(hariKerja, 'Senin–Jumat'),
+      formatJamFooter(akhirPekan, 'Sabtu–Minggu')
+    ].filter(Boolean).forEach(teks => {
+      const p = document.createElement('p');
+      p.style.whiteSpace = 'pre-line';
+      p.textContent = teks;
+      jamFooter.appendChild(p);
+    });
+  }
+}

@@ -1,0 +1,116 @@
+
+const SPREADSHEET_ID = '10hksvrhpbknEDdnf4KhphHijBW_7rT-ZSAyB4LARXQ4';
+const SHEET_NAME = 'Menu';
+
+function doGet(e) {
+  try {
+    const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = spreadsheet.getSheetByName(SHEET_NAME);
+
+    if (!sheet) {
+      throw new Error('Tab Menu tidak ditemukan.');
+    }
+
+    const rows = sheet.getDataRange().getValues();
+
+    if (rows.length < 2) {
+      return output_({ items: [] }, e);
+    }
+
+    const headers = rows[0].map(h => String(h).trim());
+    const required = [
+      'id', 'nama', 'deskripsi', 'harga',
+      'kategori', 'foto_url', 'tersedia', 'urutan'
+    ];
+
+    for (const name of required) {
+      if (!headers.includes(name)) {
+        throw new Error('Kolom tidak ditemukan: ' + name);
+      }
+    }
+
+    const items = rows.slice(1)
+      .filter(row => row.some(value => value !== ''))
+      .map(row => {
+        const record = {};
+
+        headers.forEach((header, index) => {
+          record[header] = row[index];
+        });
+
+        return {
+          id: String(record.id || '').trim(),
+          name: String(record.nama || '').trim(),
+          description: String(record.deskripsi || ''),
+          price: Number(record.harga) || 0,
+          category: String(record.kategori || '').trim(),
+          image: convertDriveImageUrl(record.foto_url),
+          available:
+            record.tersedia === true ||
+            String(record.tersedia).toUpperCase() === 'TRUE',
+          sortOrder: Number(record.urutan) || 0
+        };
+      })
+      .filter(item =>
+        item.id &&
+        item.name &&
+        item.available &&
+        ['Makanan', 'Minuman', 'Dessert'].includes(item.category)
+      )
+      .sort((a, b) => a.sortOrder - b.sortOrder);
+
+    return output_({ items: items }, e);
+
+  } catch (error) {
+    console.error(error);
+    return output_({ error: 'Gagal mengambil data menu.' }, e);
+  }
+}
+
+function output_(data, e) {
+  const callback = e && e.parameter && e.parameter.callback;
+
+  if (callback) {
+    if (!/^[A-Za-z_$][0-9A-Za-z_$]*$/.test(callback)) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ error: 'Callback tidak valid.' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    return ContentService
+      .createTextOutput(callback + '(' + JSON.stringify(data) + ');')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+
+function convertDriveImageUrl(url) {
+  const value = String(url || '').trim();
+
+  if (!value) return '';
+
+  // Ambil ID dari link berbagi Google Drive
+  const match =
+    value.match(/\/file\/d\/([^/?]+)/) ||
+    value.match(/[?&]id=([^&]+)/);
+
+  if (match && match[1]) {
+    return 'https://drive.google.com/thumbnail?id='
+      + match[1]
+      + '&sz=w1000';
+  }
+
+  // Jika sudah berupa link thumbnail, pertahankan
+  if (value.includes('drive.google.com/thumbnail')) {
+    return value;
+  }
+
+  // Untuk link gambar selain Google Drive
+  return value;
+}
+
+
