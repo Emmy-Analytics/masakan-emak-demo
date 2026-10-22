@@ -3304,7 +3304,7 @@ body.cart-open .order-panel.visible {
 
 .site-footer .footer-delivery-logos a {
   min-width: 0;
-  width: 100%;
+  width: 110%;
   height: 100px;
   padding: 8px;
   box-sizing: border-box;
@@ -3336,3 +3336,142 @@ body.cart-open .order-panel.visible {
   max-width: 100%;
 }
 
+
+
+
+/* COPYRIGHT DAN WEBSITE DEMO — POSISI TENGAH */
+.site-footer .footer-bottom {
+  width: 100%;
+  max-width: 1400px;
+  margin: 36px auto 0;
+  padding: 10px 0 0;
+  border-top: 1px solid #68422d;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  text-align: center;
+}
+
+.site-footer .footer-bottom span {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: static;
+  transform: none;
+  text-align: center;
+}
+
+.site-footer .footer-bottom span:first-child {
+  order: 2;
+}
+
+.site-footer .footer-bottom span:last-child {
+  order: 1;
+}
+
+/* FIX FINAL — COPYRIGHT & WEBSITE DEMO DI TENGAH */
+.site-footer .footer-bottom {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100%;
+  max-width: 1400px;
+  margin: 36px auto 0 !important;
+  padding: 20px 0 0;
+  gap: 8px;
+
+  text-align: center !important;
+  border-top: 0px solid #68422d;
+}
+
+.site-footer .footer-bottom span {
+  display: block !important;
+  width: 350%;
+  margin: 0;
+  text-align: center !important;
+}
+
+.site-footer .footer-bottom span:first-child {
+  order: 2;
+}
+
+.site-footer .footer-bottom span:last-child {
+  order: 1;
+}
+/* Jarak tombol dengan teks Pesan juga melalui */
+.site-footer .footer-grid .footer-button + .footer-button + p {
+  margin-top: 24px !important;
+}
+
+
+/* Logo media sosial footer */
+.site-footer .footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.site-footer .footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.site-footer .footer-socials a:hover {
+  transform: translateY(-3px);
+}
+
+.site-footer .footer-socials img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.site-footer .footer-contact-title {
+  margin: 100px 0 100px;
+  color: #ef8b48;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+
+.footer-portfolio-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.footer-wa-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #25D366;
+  font-weight: 700;
+}
+
+.footer-wa-link svg {
+  flex-shrink: 0;
+}
+
+
+.site-footer .footer-portfolio-cta {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

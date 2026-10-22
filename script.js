@@ -61,7 +61,7 @@ function renderMenu() {
   filtered.forEach((item) => {
     const card = document.createElement("article");
     card.className = "food-card";
-
+    
     card.innerHTML = `
       <img
         class="food-image"
@@ -227,7 +227,8 @@ function checkout() {
   ].join("\n");
 
   const url =
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    `https://wa.me/${String(window.menuSettings?.whatsapp || WHATSAPP_NUMBER)
+      .replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
 
   window.open(url, "_blank", "noopener,noreferrer");
 }
@@ -254,8 +255,12 @@ document.querySelector(".category-bar").addEventListener("click", (event) => {
 /* ===== PANEL KONFIRMASI PESANAN ===== */
 
 function showOrderConfirmation() {
-  if (cart.size === 0) {
-    alert("Keranjang masih kosong. Silakan pilih menu terlebih dahulu.");
+  const whatsappNumber = String(
+    (window.menuSettings || {}).whatsapp || WHATSAPP_NUMBER
+  ).replace(/\D/g, "");
+
+  if (!/^\d{10,15}$/.test(whatsappNumber)) {
+    alert("Nomor WhatsApp belum valid. Periksa tab Pengaturan di Google Sheets.");
     return;
   }
 
@@ -342,13 +347,12 @@ function showOrderConfirmation() {
 
   overlay.querySelector(".demo-checkout-confirm")
     .addEventListener("click", () => {
-      // Pastikan nomor WhatsApp sudah diganti dengan nomor yang benar.
-      if (!/^\d{10,15}$/.test(WHATSAPP_NUMBER) ||
-          WHATSAPP_NUMBER === "6281234567890") {
-        alert(
-          "Silakan ganti WHATSAPP_NUMBER di bagian atas script.js " +
-          "dengan nomor WhatsApp restoran yang benar terlebih dahulu."
-        );
+      const whatsappNumber = String(
+        (window.menuSettings || {}).whatsapp || WHATSAPP_NUMBER
+      ).replace(/\D/g, "");
+
+      if (!/^\d{10,15}$/.test(whatsappNumber)) {
+        alert("Nomor WhatsApp belum valid. Periksa tab Pengaturan.");
         return;
       }
 
@@ -378,9 +382,10 @@ function showOrderConfirmation() {
       ].join("\n");
 
       const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        `https://wa.me/${String(window.menuSettings?.whatsapp || WHATSAPP_NUMBER)
+          .replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
 
-      window.open(url, "_blank");
+      window.open(url, "_blank", "noopener,noreferrer");
     });
 }
 
@@ -475,13 +480,12 @@ function showOrderConfirmation() {
 
   overlay.querySelector(".demo-checkout-confirm")
     .addEventListener("click", () => {
-      // Pastikan nomor WhatsApp sudah diganti dengan nomor yang benar.
-      if (!/^\d{10,15}$/.test(WHATSAPP_NUMBER) ||
-          WHATSAPP_NUMBER === "6281234567890") {
-        alert(
-          "Silakan ganti WHATSAPP_NUMBER di bagian atas script.js " +
-          "dengan nomor WhatsApp restoran yang benar terlebih dahulu."
-        );
+      const whatsappNumber = String(
+        (window.menuSettings || {}).whatsapp || WHATSAPP_NUMBER
+      ).replace(/\D/g, "");
+
+      if (!/^\d{10,15}$/.test(whatsappNumber)) {
+        alert("Nomor WhatsApp belum valid. Periksa tab Pengaturan.");
         return;
       }
 
@@ -511,9 +515,10 @@ function showOrderConfirmation() {
       ].join("\n");
 
       const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        `https://wa.me/${String(window.menuSettings?.whatsapp || WHATSAPP_NUMBER)
+          .replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
 
-      window.open(url, "_blank");
+      window.open(url, "_blank", "noopener,noreferrer");
     });
 }
 
@@ -828,6 +833,169 @@ function tampilkanPengaturanRestoran() {
   const settings = window.menuSettings || {};
   const hours = window.menuOperatingHours || [];
 
+  
+  // Status tutup sementara dari Google Sheets
+  const restoranTutup =
+    String(settings.tutup_sementara || "").toUpperCase() === "TRUE";
+
+  const pesanTutup = document.getElementById("pesanTutupSementara");
+
+  if (pesanTutup) {
+    pesanTutup.hidden = !restoranTutup;
+  }
+
+  const tombolReservasi = document.querySelector(
+    "#reservationForm button[type='submit']"
+  );
+
+  if (tombolReservasi) {
+    tombolReservasi.disabled = restoranTutup;
+    tombolReservasi.textContent = restoranTutup
+      ? "Reservasi Ditutup Sementara"
+      : "Kirim Rencana Kunjungan";
+  }
+
+    // ===== INFORMASI RESTORAN DARI GOOGLE SHEETS =====
+
+  const namaRestoran = String(
+    settings.nama_restoran || "Masakan Emak"
+  ).trim();
+
+  const bagianNama = namaRestoran.split(/\s+/);
+  const namaAkhir = bagianNama.length > 1
+    ? bagianNama.pop()
+    : "";
+
+  const namaUtama = bagianNama.join(" ") || namaRestoran;
+
+  const elemenNamaUtama = document.getElementById("namaRestoranUtama");
+  const elemenNamaAkhir = document.getElementById("namaRestoranAkhir");
+
+  if (elemenNamaUtama) {
+    elemenNamaUtama.textContent = namaUtama;
+  }
+
+  if (elemenNamaAkhir) {
+    elemenNamaAkhir.textContent = namaAkhir;
+    elemenNamaAkhir.hidden = !namaAkhir;
+  }
+
+  // Nama restoran di reservasi dan footer
+  const namaReservasi = document.getElementById("namaRestoranReservasi");
+  if (namaReservasi) {
+    namaReservasi.textContent = namaRestoran.toUpperCase();
+  }
+
+  const namaFooter = document.getElementById("namaRestoranFooter");
+  if (namaFooter) {
+    namaFooter.textContent = namaRestoran;
+  }
+
+  // Judul tab browser
+  const judulHalaman = document.getElementById("judulHalaman");
+  if (judulHalaman) {
+    judulHalaman.textContent = namaRestoran + " — Beranda";
+  }
+
+  // Judul peta
+  const petaRestoran = document.getElementById("petaRestoran");
+  if (petaRestoran) {
+    petaRestoran.title = "Lokasi " + namaRestoran;
+  }
+
+  // Sapaan header
+  const brandArea = document.querySelector(".brand-area p");
+  if (brandArea && settings.sapaan_restoran) {
+    brandArea.textContent = settings.sapaan_restoran;
+  }
+
+  // Deskripsi footer
+  const deskripsiFooter = document.querySelector(".footer-logo + p");
+  if (deskripsiFooter && settings.deskripsi_restoran) {
+    deskripsiFooter.textContent = settings.deskripsi_restoran;
+  }
+
+  const judulReview = document.getElementById("judulReview");
+  if (judulReview && settings.judul_review) {
+    judulReview.textContent = settings.judul_review;
+  }
+
+  const namaDapurReservasi = document.getElementById("namaDapurReservasi");
+  if (namaDapurReservasi) {
+    namaDapurReservasi.textContent = "DARI DAPUR " + namaRestoran.toUpperCase();
+  }
+
+
+  // Menghubungkan tautan Instagram dari Google Sheets
+  const instagram = document.querySelector(
+    '[data-setting="instagram_url"]'
+  );
+
+  if (instagram && settings.instagram_url) {
+    instagram.href = settings.instagram_url;
+  }
+
+    // Menghubungkan tautan TikTok dari Google Sheets
+  const tiktok = document.querySelector(
+    '[data-setting="tiktok_url"]'
+  );
+
+  if (tiktok && settings.tiktok_url) {
+    tiktok.href = settings.tiktok_url;
+  }
+
+  
+  // Menghubungkan tautan Facebook dari Google Sheets
+  const facebook = document.querySelector(
+    '[data-setting="facebook_url"]'
+  );
+
+  if (facebook && settings.facebook_url) {
+    facebook.href = settings.facebook_url;
+  }
+
+  
+  // Menghubungkan tautan WhatsApp dari Google Sheets
+  const whatsappSocial = document.querySelector(
+    '[data-setting="whatsapp_social"]'
+  );
+
+  const nomorWhatsApp = String(settings.whatsapp || "").replace(/\D/g, "");
+
+  if (whatsappSocial && nomorWhatsApp) {
+    whatsappSocial.href = `https://wa.me/${nomorWhatsApp}`;
+  }
+
+  
+  // Menghubungkan GoFood dari Google Sheets
+  const gofood = document.querySelector(
+    '[data-setting="gofood_url"]'
+  );
+
+  if (gofood && settings.gofood_url) {
+    gofood.href = settings.gofood_url;
+  }
+
+  
+  // Menghubungkan GrabFood dari Google Sheets
+  const grabfood = document.querySelector(
+    '[data-setting="grabfood_url"]'
+  );
+
+  if (grabfood && settings.grabfood_url) {
+    grabfood.href = settings.grabfood_url;
+  }
+
+  
+  // Menghubungkan ShopeeFood dari Google Sheets
+  const shopeefood = document.querySelector(
+    '[data-setting="shopeefood_url"]'
+  );
+
+  if (shopeefood && settings.shopeefood_url) {
+    shopeefood.href = settings.shopeefood_url;
+  }
+
   // Perbarui alamat restoran
   const alamat = document.getElementById('alamatRestoran');
   if (alamat && settings.alamat) {
@@ -845,6 +1013,11 @@ function tampilkanPengaturanRestoran() {
     maps.href = settings.maps_url;
   }
 
+  const copyright = document.getElementById("copyrightRestoran");
+  if (copyright && settings.copyright_restoran) {
+    copyright.textContent = settings.copyright_restoran;
+  }
+  
   // Perbarui jam operasional
   const jam = document.getElementById('jamOperasionalRestoran');
 
@@ -955,4 +1128,5 @@ function tampilkanPengaturanRestoran() {
       jamFooter.appendChild(p);
     });
   }
+  
 }

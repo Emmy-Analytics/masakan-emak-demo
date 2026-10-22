@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Demo katalog menu Masakan Emak">
-<title>Masakan Emak — Beranda</title>
+<title id="judulHalaman">Masakan Emak — Beranda</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,8 +19,11 @@
 </div>
 <header class="glass-header">
   <div class="brand-area">
-    <a class="logo" href="#beranda">Masakan <span>Emak</span></a>
-    <p>Hallo Sahabat Masakan Emak Lover!</p>
+    <a class="logo" id="namaRestoranHeader" href="#beranda">
+      <span id="namaRestoranUtama">Masakan</span>
+      <span id="namaRestoranAkhir">Emak</span>
+    </a>
+    <p id="sapaanRestoran">Hallo Sahabat Masakan Emak Lover!</p>
   </div>
   <div class="header-right">
     <nav>
@@ -61,8 +64,8 @@
 <!-- REVIEW PELANGGAN -->
 <section class="review-section" id="review">
   <p class="section-eyebrow">KATA PELANGGAN</p>
-  <h2>Pengalaman Bersantap di Masakan Emak</h2>
-  <p class="section-description">
+  <h2 id="judulReview">Pengalaman Bersantap di Masakan Emak</h2>
+  <p class="section-description" id="deskripsiReview">
     Kami ingin setiap hidangan menghadirkan rasa nyaman seperti masakan rumah.
   </p>
 
@@ -94,7 +97,7 @@
 
 <section class="reservation-section" id="reservasi">
   <div class="reservation-info">
-    <span class="reservation-kicker">DARI DAPUR EMAK</span>
+    <span class="reservation-kicker" id="namaDapurReservasi">DARI DAPUR EMAK</span>
     <h2>Makan enak, kumpul lebih hangat.</h2>
     <p>
       Lagi pengen makan enak bareng orang tersayang?
@@ -104,7 +107,7 @@
 
 
     <div class="reservation-stamp">
-      <span>MASAKAN EMAK</span>
+      <span id="namaRestoranReservasi">MASAKAN EMAK</span>
       <strong>Dimasak dengan hati</strong>
     </div>
   </div>
@@ -151,6 +154,9 @@
       ></textarea>
     </div>
 
+    <p id="pesanTutupSementara" hidden>
+      Mohon maaf, restoran sedang tutup sementara.
+    </p>
 
     <button type="submit" class="reservation-submit">
       Kirim Rencana Kunjungan
@@ -204,6 +210,7 @@
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"
       title="Lokasi Masakan Emak"
+      id="petaRestoran"
     ></iframe>
   </div>
 </section>
@@ -212,10 +219,46 @@
   
 <footer class="site-footer">
   <div class="footer-grid">
+    
     <div>
-      <h3 class="footer-logo">Masakan Emak</h3>
+      <h3 class="footer-logo" id="namaRestoranFooter">Masakan Emak</h3>
       <p>Hidangan rumahan, rasa penuh kehangatan.</p>
+
+      <h4 class="footer-contact-title">HUBUNGI KAMI</h4>
+      <p class="footer-contact-text">
+        Punya pertanyaan atau ingin memesan?
+        Lihat media sosial kami:
+      </p>
+
+      
+      <div class="footer-socials">
+        <a data-setting="instagram_url" href="#"
+          target="_blank" rel="noopener noreferrer"
+          aria-label="Instagram">
+          <img src="images/instagram.svg" alt="Instagram">
+        </a>
+
+        <a data-setting="tiktok_url" href="#"
+          target="_blank" rel="noopener noreferrer"
+          aria-label="TikTok">
+          <img src="images/tiktok.svg" alt="TikTok">
+        </a>
+
+        <a data-setting="whatsapp_social" href="#"
+          target="_blank" rel="noopener noreferrer"
+          aria-label="WhatsApp">
+          <img src="images/whatsapp.svg" alt="WhatsApp">
+        </a>
+
+        <a data-setting="facebook_url" href="#"
+          target="_blank" rel="noopener noreferrer"
+          aria-label="Facebook">
+          <img src="images/facebook.svg" alt="Facebook">
+        </a>
+      </div>
+
     </div>
+
 
     <div>
       <h4>HALAMAN</h4>
@@ -258,34 +301,60 @@
     <a class="footer-button" href="#menu">
       Pesan Makanan
     </a>
-
+    
     <p>Pesan juga melalui:</p>
 
     
+    
     <div class="footer-delivery-logos">
-      <a href="https://gofood.example.com/masakan-emak"
+      <a data-setting="gofood_url" href="#"
         target="_blank" rel="noopener noreferrer">
         <img src="images/gofood.svg" alt="GoFood">
       </a>
 
-      <a href="https://grabfood.example.com/masakan-emak"
+      <a data-setting="grabfood_url" href="#"
         target="_blank" rel="noopener noreferrer">
         <img src="images/grabfood.svg" alt="GrabFood">
       </a>
 
-      <a href="https://shopeefood.example.com/masakan-emak"
+      <a data-setting="shopeefood_url" href="#"
         target="_blank" rel="noopener noreferrer">
         <img src="images/shopeefood.svg" alt="ShopeeFood">
       </a>
     </div>
 
+
   </div>
 
 
+  
   <div class="footer-bottom">
-    <span>© 2026 Masakan Emak</span>
-    <span>Website Demo portoweb.id</span>
+    <span>© 2026 PortoWeb.id</span>
+    <span>Mau punya website seperti ini?</span>
+    
+    <a
+      class="footer-portfolio-cta"
+      href="https://wa.me/6282195670441?text=Halo%2C%20saya%20tertarik%20membuat%20website%20untuk%20bisnis%20saya."
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="footer-wa-link">
+        <svg
+          viewBox="0 0 24 24"
+          width="15"
+          height="15"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M20.52 3.48A11.8 11.8 0 0 0 12.13 0C5.58 0 .24 5.33.24 11.89c0 2.1.55 4.15 1.6 5.96L.14 24l6.31-1.65a11.9 11.9 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.33 11.89-11.89a11.8 11.8 0 0 0-3.51-8.43ZM12.14 21.8a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.75.98 1-3.65-.24-.38a9.86 9.86 0 0 1-1.52-5.27c0-5.46 4.45-9.9 9.92-9.9a9.84 9.84 0 0 1 7.01 2.91 9.84 9.84 0 0 1 2.9 7.01c0 5.46-4.45 9.89-9.92 9.89Zm5.44-7.41c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.64.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.44-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.66-1.6-.91-2.2-.24-.58-.49-.5-.66-.51h-.56c-.2 0-.51.07-.78.37-.27.3-1.03 1.01-1.03 2.47 0 1.46 1.06 2.87 1.2 3.07.15.2 2.08 3.17 5.03 4.44.7.3 1.25.49 1.68.63.7.22 1.34.19 1.84.12.56-.08 1.77-.72 2.02-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.56-.34Z"/>
+        </svg>
+        Hubungi Kami
+      </span>
+    </a>
+
   </div>
+
+
 </footer>
 
 <!-- Floating cart button -->
