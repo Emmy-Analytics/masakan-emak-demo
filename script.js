@@ -91,6 +91,244 @@ function renderMenu() {
   });
 }
 
+
+/* ===== MAKANAN FAVORIT DARI GOOGLE SHEETS ===== */
+
+function renderFavorites() {
+  const container = document.getElementById("favoriteGrid");
+  if (!container) return;
+
+  const favorites = menu.filter(item => item.favorite);
+
+  if (favorites.length === 0) {
+    container.innerHTML =
+      '<p class="feature-empty">Belum ada menu favorit yang dipilih.</p>';
+    return;
+  }
+
+  container.replaceChildren();
+
+  favorites.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "favorite-card";
+
+    const image = document.createElement("img");
+    image.src = item.photo || "";
+    image.alt = item.name;
+    image.loading = "lazy";
+
+    const label = document.createElement("span");
+    label.className = "favorite-label";
+    label.textContent = "♥ FAVORIT PELANGGAN";
+
+    const title = document.createElement("h3");
+    title.textContent = item.name;
+
+    const price = document.createElement("p");
+    price.className = "favorite-price";
+    price.textContent = formatRupiah(item.price);
+
+    const button = document.createElement("button");
+    button.className = "favorite-add";
+    button.type = "button";
+    button.textContent = "+ Tambah";
+    button.addEventListener("click", () => addToCart(item.name));
+
+    card.append(image, label, title, price, button);
+    container.appendChild(card);
+  });
+}
+
+
+/* ===== PROMO DARI GOOGLE SHEETS ===== */
+
+
+function renderPromos() {
+  const container = document.getElementById("promoGrid");
+  if (!container) return;
+
+  const now = new Date();
+
+  const promos = (window.menuPromos || []).filter(promo => {
+    if (!promo.active) return false;
+
+    // Promo mendatang boleh ditampilkan.
+    // Promo yang sudah berakhir disembunyikan.
+    const end = promo.endDate
+      ? new Date(promo.endDate + "T23:59:59")
+      : null;
+
+    if (end && !Number.isNaN(end.getTime()) && now > end) {
+      return false;
+    }
+
+    return true;
+  });
+
+  if (promos.length === 0) {
+    container.innerHTML =
+      '<p class="feature-empty">Belum ada promo aktif saat ini.</p>';
+    return;
+  }
+
+  container.replaceChildren();
+
+  promos.forEach((promo, index) => {
+    const namaPromo = String(promo.menuName || "")
+  .trim()
+  .toLowerCase();
+
+    const menuItem = (menu || []).find(item =>
+      String(item.name || "").trim().toLowerCase() === namaPromo
+    );
+
+    console.log("Pencocokan promo:", {
+      namaPromo: promo.menuName,
+      menuDitemukan: menuItem?.name,
+      fotoMenu: menuItem?.photo
+    });
+
+    const card = document.createElement("article");
+    card.className = "promo-card promo-card-visual";
+    card.style.animationDelay = `${index * 100}ms`;
+
+    // Foto makanan dari tab Menu.
+    const imageWrap = document.createElement("div");
+    imageWrap.className = "promo-image-wrap";
+
+    if (menuItem && menuItem.photo) {
+      const image = document.createElement("img");
+      image.className = "promo-image";
+      image.src = menuItem.photo;
+      image.alt = menuItem.name;
+      image.loading = "lazy";
+
+      image.onerror = () => {
+        imageWrap.classList.add("promo-image-fallback");
+        image.remove();
+      };
+
+      imageWrap.appendChild(image);
+    } else {
+      imageWrap.classList.add("promo-image-fallback");
+
+      const placeholder = document.createElement("span");
+      placeholder.className = "promo-image-placeholder";
+      placeholder.textContent = "🍽️";
+      imageWrap.appendChild(placeholder);
+    }
+
+    const badge = document.createElement("span");
+    badge.className = "promo-label";
+    badge.textContent = promo.discount
+      ? `PROMO ${promo.discount}`
+      : "PROMO SPESIAL";
+
+    imageWrap.appendChild(badge);
+
+    const content = document.createElement("div");
+    content.className = "promo-content";
+
+    const title = document.createElement("h3");
+    title.textContent = promo.title || "Promo Spesial";
+
+    const description = document.createElement("p");
+    description.className = "promo-description";
+    description.textContent = promo.description || "";
+
+    const menuName = document.createElement("p");
+    menuName.className = "promo-menu-name";
+    menuName.textContent = promo.menuName
+      ? `Menu: ${promo.menuName}`
+      : "Lihat pilihan menu kami";
+
+    content.append(title, description, menuName);
+
+    // Harga normal dan harga promo.
+    const priceBox = document.createElement("div");
+    priceBox.className = "promo-prices";
+
+    const normalPrice = menuItem
+      ? Number(menuItem.price) || 0
+      : 0;
+
+    const salePrice = Number(promo.promoPrice) || 0;
+
+    if (normalPrice > 0 && salePrice > 0 && salePrice < normalPrice) {
+      const oldPrice = document.createElement("del");
+      oldPrice.className = "promo-old-price";
+      oldPrice.textContent = formatRupiah(normalPrice);
+
+      const newPrice = document.createElement("strong");
+      newPrice.className = "promo-new-price";
+      newPrice.textContent = formatRupiah(salePrice);
+
+      priceBox.append(oldPrice, newPrice);
+    } else if (normalPrice > 0) {
+      const regularPrice = document.createElement("strong");
+      regularPrice.className = "promo-new-price";
+      regularPrice.textContent = formatRupiah(normalPrice);
+      priceBox.appendChild(regularPrice);
+    } else {
+      const priceNote = document.createElement("span");
+      priceNote.className = "promo-price-note";
+      priceNote.textContent = "Hubungi restoran untuk harga";
+      priceBox.appendChild(priceNote);
+    }
+
+    const period = document.createElement("small");
+    period.className = "promo-period";
+    period.textContent =
+      `Periode: ${promo.startDate || "Sekarang"} — ${promo.endDate || "Sampai informasi berikutnya"}`;
+
+    
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "promo-menu-button";
+    button.textContent = "🛒 Tambah ke Keranjang";
+
+    button.disabled = !menuItem;
+
+    button.addEventListener("click", () => {
+      if (!menuItem) {
+        alert("Menu promo tidak ditemukan di tab Menu.");
+        return;
+      }
+
+      // Pastikan harga promo valid sebelum menambah ke keranjang.
+      const originalPrice = Number(menuItem.price) || 0;
+      const promoPrice = Number(promo.promoPrice) || 0;
+
+      if (promoPrice <= 0 || promoPrice >= originalPrice) {
+        alert("Harga promo belum valid. Periksa tab Promo di Google Sheets.");
+        return;
+      }
+
+      // Gunakan fungsi keranjang yang sudah ada di website.
+      if (typeof addToCart !== "function") {
+        alert("Fungsi keranjang belum ditemukan.");
+        return;
+      }
+
+      const savedPrice = menuItem.price;
+
+      try {
+        menuItem.price = promoPrice;
+        addToCart(menuItem.name);
+      } finally {
+        menuItem.price = savedPrice;
+      }
+    });
+
+
+    content.append(priceBox, period, button);
+    card.append(imageWrap, content);
+    container.appendChild(card);
+  });
+}
+
+
+
 // Menambah satu menu ke keranjang.
 function addToCart(name) {
   const currentQty = cart.get(name) || 0;
@@ -530,6 +768,8 @@ document.getElementById("checkoutBtn")
 // Tampilkan menu dan kondisi keranjang saat halaman dibuka.
 renderMenu();
 renderCart();
+renderFavorites();
+renderPromos();
 
 
 /* ===== GOOGLE SHEETS MENU API ===== */
@@ -567,9 +807,19 @@ function ambilMenuDariGoogleSheets() {
         return;
       }
 
+      
       window.menuSettings = data.settings || {};
       window.menuOperatingHours = data.operatingHours || [];
+
+      // Simpan semua promo dari Google Apps Script.
+      window.menuPromos = Array.isArray(data.promos)
+        ? data.promos
+        : [];
+
+      console.log("Jumlah promo dari Google Sheets:", window.menuPromos.length);
+
       resolve(data.items);
+
     };
 
     scriptTag.onerror = () => {
@@ -619,7 +869,11 @@ ambilMenuDariGoogleSheets()
       name: String(item.name || ""),
       price: Number(item.price) || 0,
       photo: siapkanUrlFoto(item.image),
-      category: String(item.category || "")
+      category: String(item.category || ""),
+      favorite: ["TRUE", "YA", "YES", "1"]
+        .includes(String(item.favorit ?? item.favorite ?? "").trim().toUpperCase()),
+      onPromo: ["TRUE", "YA", "YES", "1"]
+        .includes(String(item.promo ?? "").trim().toUpperCase())
     })).filter((item) =>
       item.name &&
       item.price >= 0 &&
@@ -644,6 +898,8 @@ ambilMenuDariGoogleSheets()
     // Perbarui kartu menu dan total keranjang.
     renderMenu();
     renderCart();
+    renderFavorites();
+    renderPromos();
 
     console.log("Menu berhasil dimuat dari Google Sheets:", menu.length);
   })

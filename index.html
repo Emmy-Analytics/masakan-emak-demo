@@ -29,6 +29,7 @@
   <div class="header-right">
     <nav>
       <a class="active" href="#beranda">Beranda</a>
+      <a href="#promo">Promo</a>
       <a href="#menu">Menu</a>
       <a href="#review">Review</a>
       <a href="#lokasi">Lokasi</a>
@@ -41,13 +42,42 @@
 </header>
 
 <main id="beranda">
-  <section class="category-bar" aria-label="Kategori menu">
-  <button class="category-chip active" data-category="Semua">Semua</button>
-  <button class="category-chip" data-category="Makanan">Makanan</button>
-  <button class="category-chip" data-category="Minuman">Minuman</button>
-  <button class="category-chip" data-category="Dessert">Dessert</button>
-  </section>
+  
 
+<!-- PROMO RESTORAN -->
+<section class="promo-section" id="promo">
+  <div class="feature-heading">
+    <p class="feature-eyebrow">PENAWARAN SPESIAL</p>
+    <h2>Promo Hari Ini</h2>
+    <p>Temukan penawaran menarik dari Masakan Emak.</p>
+  </div>
+
+  <div class="promo-grid" id="promoGrid">
+    <p class="feature-loading">Promo sedang dimuat...</p>
+  </div>
+</section>
+
+<!-- MAKANAN FAVORIT -->
+<section class="favorite-section" id="favorit">
+  <div class="feature-heading">
+    <p class="feature-eyebrow">PILIHAN PELANGGAN</p>
+    <h2>Makanan Favorit</h2>
+    <p>Menu pilihan yang layak kamu coba.</p>
+  </div>
+
+  <div class="favorite-grid" id="favoriteGrid">
+    <p class="feature-loading">Memuat menu favorit...</p>
+  </div>
+</section>
+
+<section class="category-bar" aria-label="Kategori menu">
+<button class="category-chip active" data-category="Semua">Semua</button>
+<button class="category-chip" data-category="Makanan">Makanan</button>
+<button class="category-chip" data-category="Minuman">Minuman</button>
+<button class="category-chip" data-category="Dessert">Dessert</button>
+</section>
+
+<!-- DAFTAR MENU LENGKAP -->
 <section class="menu-grid" id="menu" aria-label="Daftar menu"></section>
   <section class="order-panel" id="pesanan">
     <div>
