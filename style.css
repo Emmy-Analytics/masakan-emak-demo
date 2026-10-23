@@ -4358,3 +4358,292 @@ body.cart-open .order-panel.visible {
     font-size: 10px;
   }
 }
+
+/* ===== FIX RESPONSIVE HP: PROMO, RESERVASI, LOKASI ===== */
+@media screen and (max-width: 600px) {
+
+  /* PROMO: kartu lebih ringkas */
+  .promo-section {
+    padding: 22px 14px;
+  }
+
+  .promo-section .feature-heading {
+    margin-bottom: 16px;
+  }
+
+  .promo-section .feature-heading h2 {
+    font-size: 24px;
+    line-height: 1.25;
+    margin: 6px 0 10px;
+  }
+
+  .promo-section .feature-heading > p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .promo-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .promo-card-visual {
+    min-width: 0;
+    border-radius: 18px;
+  }
+
+  .promo-image-wrap {
+    height: 145px;
+    min-height: 145px;
+    overflow: hidden;
+  }
+
+  .promo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .promo-content {
+    padding: 14px 16px 16px;
+  }
+
+  .promo-content h3 {
+    font-size: 17px;
+    line-height: 1.3;
+    margin: 0 0 7px;
+  }
+
+  .promo-description,
+  .promo-menu-name {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 6px 0;
+  }
+
+  .promo-prices {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 9px 0;
+  }
+
+  .promo-old-price {
+    font-size: 11px;
+  }
+
+  .promo-new-price {
+    font-size: 19px;
+  }
+
+  .promo-period {
+    display: block;
+    font-size: 10px;
+    line-height: 1.4;
+    margin: 8px 0 10px;
+  }
+
+  .promo-menu-button {
+    width: 100%;
+    min-height: 40px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  /* RESERVASI: kurangi ruang kosong */
+  .reservation-section {
+    padding: 22px 12px;
+  }
+
+  .reservation-section > *,
+  .reservation-section .reservation-container {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .reservation-form {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .reservation-form h2,
+  .reservation-form h3 {
+    font-size: 22px;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+
+  .reservation-form p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .reservation-form label {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  .reservation-form input,
+  .reservation-form select,
+  .reservation-form textarea {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  .reservation-form textarea {
+    min-height: 76px;
+  }
+
+  .reservation-form button,
+  .reservation-submit {
+    width: 100%;
+    min-height: 42px;
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+
+  /* LOKASI: kartu dan peta lebih proporsional */
+  .location-section {
+    padding: 22px 12px;
+  }
+
+  .location-section h2 {
+    font-size: 21px;
+    line-height: 1.3;
+  }
+
+  .location-section h3 {
+    font-size: 17px;
+    line-height: 1.4;
+  }
+
+  .location-section p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .location-section .maps-link,
+  .location-section a {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .location-section iframe,
+  .location-section .map-frame {
+    width: 100%;
+    max-width: 100%;
+    height: 220px;
+    border-radius: 14px;
+  }
+}
+
+/* SAMAKAN KARTU PROMO DENGAN KARTU FAVORIT DI HP */
+@media screen and (max-width: 600px) {
+  .promo-section {
+    padding: 18px 12px;
+  }
+
+  .promo-section .feature-heading h2 {
+    font-size: 21px;
+    line-height: 1.3;
+  }
+
+  .promo-section .feature-heading > p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* Dua kartu promo berdampingan */
+  .promo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .promo-card-visual {
+    min-width: 0;
+    border-radius: 17px;
+    overflow: hidden;
+  }
+
+  /* Gambar mengikuti proporsi kartu favorit */
+  .promo-image-wrap {
+    height: 120px;
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .promo-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .promo-content {
+    padding: 11px 10px 10px;
+    min-width: 0;
+  }
+
+  .promo-content h3 {
+    font-size: 14px;
+    line-height: 1.35;
+    margin: 5px 0;
+    overflow-wrap: anywhere;
+  }
+
+  .promo-description,
+  .promo-menu-name {
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 5px 0;
+  }
+
+  .promo-label {
+    font-size: 9px;
+    padding: 5px 8px;
+  }
+
+  .promo-prices {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 5px;
+    margin: 7px 0;
+  }
+
+  .promo-old-price {
+    font-size: 9px;
+  }
+
+  .promo-new-price {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .promo-period {
+    font-size: 9px;
+    line-height: 1.4;
+    margin: 6px 0 8px;
+  }
+
+  .promo-card-visual .bag-button,
+  .promo-card-visual .promo-menu-button {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    padding: 8px 4px;
+    font-size: 10px;
+    line-height: 1.3;
+    white-space: normal;
+    border-radius: 10px;
+  }
+}

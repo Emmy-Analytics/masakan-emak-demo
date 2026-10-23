@@ -1,6 +1,8 @@
 
 const SPREADSHEET_ID = '10hksvrhpbknEDdnf4KhphHijBW_7rT-ZSAyB4LARXQ4';
+
 const SHEET_NAME = 'Menu';
+const PROMO_SHEET_NAME = 'Promo';
 
 function doGet(e) {
   try {
@@ -14,10 +16,16 @@ function doGet(e) {
     const rows = sheet.getDataRange().getValues();
 
     if (rows.length < 2) {
-      return output_({ items: [] }, e);
+      return output_({
+        items: [],
+        promos: [],
+        settings: getSettings_(),
+        operatingHours: getOperatingHours_()
+      }, e);
     }
 
     const headers = rows[0].map(h => String(h).trim());
+
     const required = [
       'id', 'nama', 'deskripsi', 'harga',
       'kategori', 'foto_url', 'tersedia', 'urutan'
@@ -45,10 +53,16 @@ function doGet(e) {
           price: Number(record.harga) || 0,
           category: String(record.kategori || '').trim(),
           image: convertDriveImageUrl(record.foto_url),
-          available:
-            record.tersedia === true ||
-            String(record.tersedia).toUpperCase() === 'TRUE',
-          sortOrder: Number(record.urutan) || 0
+
+          available: isTrue_(record.tersedia),
+
+          sortOrder: Number(record.urutan) || 0,
+
+          // Kolom tambahan I: favorit
+          favorite: isTrue_(record.favorit),
+
+          // Kolom tambahan J: promo
+          onPromo: isTrue_(record.promo)
         };
       })
       .filter(item =>
@@ -59,12 +73,118 @@ function doGet(e) {
       )
       .sort((a, b) => a.sortOrder - b.sortOrder);
 
-    return output_({ items: items }, e);
+    return output_({
+      items: items,
+      promos: getPromos_(spreadsheet),
+      settings: getSettings_(),
+      operatingHours: getOperatingHours_()
+    }, e);
 
   } catch (error) {
     console.error(error);
-    return output_({ error: 'Gagal mengambil data menu.' }, e);
+
+    return output_({
+      error: 'Gagal mengambil data menu.',
+      details: String(error.message || error)
+    }, e);
   }
+}
+
+
+/* ===== MEMBACA TAB PROMO ===== */
+
+function getPromos_(spreadsheet) {
+  const sheet = spreadsheet.getSheetByName(PROMO_SHEET_NAME);
+
+  if (!sheet) return [];
+
+  const rows = sheet.getDataRange().getDisplayValues();
+
+  if (rows.length < 2) return [];
+
+  const headers = rows[0].map(h =>
+    String(h).trim().toLowerCase()
+  );
+
+  const required = [
+    'judul',
+    'deskripsi',
+    'diskon',
+    'tanggal_mulai',
+    'tanggal_selesai',
+    'aktif'
+  ];
+
+  for (const name of required) {
+    if (!headers.includes(name)) {
+      throw new Error(
+        'Kolom tab Promo tidak ditemukan: ' + name
+      );
+    }
+  }
+
+  const dataPromo = rows.slice(1)
+  .filter(row => row.some(value => value !== ''));
+
+  console.log("Jumlah baris promo terbaca:", dataPromo.length);
+
+  return dataPromo
+    .map(row => {
+      const record = {};
+
+      headers.forEach((header, index) => {
+        record[header] = row[index];
+      });
+
+      
+      return {
+        title: String(record.judul || '').trim(),
+        description: String(record.deskripsi || '').trim(),
+        discount: String(record.diskon || '').trim(),
+        startDate: normalizeDate_(record.tanggal_mulai),
+        endDate: normalizeDate_(record.tanggal_selesai),
+        active: isTrue_(record.aktif),
+
+        // Data menu dan harga promo dari kolom G dan H
+        menuName: String(record.nama_menu || '').trim(),
+        promoPrice: Number(
+          String(record.harga_promo || '').replace(/[^\d.-]/g, '')
+        ) || 0
+      };
+
+    })
+    .filter(promo => promo.title);
+}
+
+
+/* ===== FUNGSI BANTU ===== */
+
+function isTrue_(value) {
+  return value === true ||
+    ['TRUE', 'YA', 'YES', '1'].includes(
+      String(value || '').trim().toUpperCase()
+    );
+}
+
+function normalizeDate_(value) {
+  if (!value) return '';
+
+  if (value instanceof Date && !isNaN(value.getTime())) {
+    return Utilities.formatDate(
+      value,
+      Session.getScriptTimeZone(),
+      'yyyy-MM-dd'
+    );
+  }
+
+  const text = String(value).trim();
+
+  // Tanggal dari spreadsheet diharapkan YYYY-MM-DD.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+    return text;
+  }
+
+  return text;
 }
 
 function output_(data, e) {
@@ -73,12 +193,16 @@ function output_(data, e) {
   if (callback) {
     if (!/^[A-Za-z_$][0-9A-Za-z_$]*$/.test(callback)) {
       return ContentService
-        .createTextOutput(JSON.stringify({ error: 'Callback tidak valid.' }))
+        .createTextOutput(
+          JSON.stringify({ error: 'Callback tidak valid.' })
+        )
         .setMimeType(ContentService.MimeType.JSON);
     }
 
     return ContentService
-      .createTextOutput(callback + '(' + JSON.stringify(data) + ');')
+      .createTextOutput(
+        callback + '(' + JSON.stringify(data) + ');'
+      )
       .setMimeType(ContentService.MimeType.JAVASCRIPT);
   }
 
@@ -87,30 +211,62 @@ function output_(data, e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-
 function convertDriveImageUrl(url) {
   const value = String(url || '').trim();
 
   if (!value) return '';
 
-  // Ambil ID dari link berbagi Google Drive
   const match =
     value.match(/\/file\/d\/([^/?]+)/) ||
     value.match(/[?&]id=([^&]+)/);
 
   if (match && match[1]) {
-    return 'https://drive.google.com/thumbnail?id='
-      + match[1]
-      + '&sz=w1000';
+    return 'https://drive.google.com/uc?export=view&id='
+      + match[1];
   }
 
-  // Jika sudah berupa link thumbnail, pertahankan
-  if (value.includes('drive.google.com/thumbnail')) {
-    return value;
-  }
-
-  // Untuk link gambar selain Google Drive
   return value;
 }
 
 
+/* ===== PENGATURAN RESTORAN ===== */
+
+function getSettings_() {
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = spreadsheet.getSheetByName('Pengaturan');
+
+  if (!sheet) return {};
+
+  const rows = sheet.getDataRange().getDisplayValues();
+  const settings = {};
+
+  rows.slice(1).forEach(row => {
+    const key = String(row[0] || '').trim();
+    const value = String(row[1] || '').trim();
+
+    if (key) settings[key] = value;
+  });
+
+  return settings;
+}
+
+
+/* ===== JAM OPERASIONAL ===== */
+
+function getOperatingHours_() {
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = spreadsheet.getSheetByName('Jam Operasional');
+
+  if (!sheet) return [];
+
+  const rows = sheet.getDataRange().getDisplayValues();
+
+  return rows.slice(1)
+    .filter(row => row[0])
+    .map(row => ({
+      day: String(row[0]).trim(),
+      open: String(row[1] || '').trim(),
+      close: String(row[2] || '').trim(),
+      closed: String(row[3]).toUpperCase() === 'TRUE'
+    }));
+}
