@@ -360,7 +360,9 @@ nav a {
 
 /* ===== LABEL DEMO WEBSITE ===== */
 .demo-notice {
-  width: min(1180px, calc(100% - 26px));
+  width: calc(100% - 26px);
+  max-width: 1180px;
+  box-sizing: border-box;
   margin: 12px auto;
   padding: 11px 16px;
   display: flex;
@@ -3474,4 +3476,374 @@ body.cart-open .order-panel.visible {
   gap: 8px !important;
   margin: 0 !important;
   padding: 0 !important;
+}
+
+/* RAPIIKAN LAYOUT FOOTER DI HP */
+@media screen and (max-width: 600px) {
+  .site-footer {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 28px 20px 18px !important;
+    overflow: hidden !important;
+  }
+
+  /* Beri jarak dari tepi layar */
+  .site-footer .footer-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 26px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  /* Hindari isi footer melebar keluar */
+  .site-footer .footer-grid > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Area copyright dan promosi */
+  .site-footer .footer-bottom > span {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    text-align: center !important;
+  }
+
+  .site-footer .footer-copyright {
+    order: 0 !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  .site-footer .footer-portfolio-cta {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 6px !important;
+    max-width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* Ikon dan teks WhatsApp tetap berdampingan */
+  .site-footer .footer-wa-link {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    color: #25D366 !important;
+    text-decoration: none !important;
+  }
+}
+
+
+/* ==================================================
+   MASAKAN EMAK — MOBILE INTERACTION & ANIMATION
+   Tambahan khusus responsive, tanpa mengubah desktop
+   ================================================== */
+
+/* Animasi masuk yang halus */
+@keyframes mobileFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mobilePop {
+  0%   { transform: scale(0.96); }
+  60%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@media screen and (max-width: 900px) {
+
+  /* Scroll antarbagian lebih nyaman */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 110px;
+  }
+
+  #menu,
+  #review,
+  #reservasi,
+  #lokasi,
+  #pesanan {
+    scroll-margin-top: 110px;
+  }
+
+  /* Header: transisi lembut */
+  .glass-header {
+    transition: box-shadow 0.25s ease,
+                background-color 0.25s ease;
+  }
+
+  .glass-header nav a {
+    transition: color 0.2s ease,
+                background-color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .glass-header nav a:active {
+    color: var(--orange);
+  }
+
+  /* Kolom pencarian lebih nyaman disentuh */
+  .search:focus-within {
+    outline: 2px solid rgba(216, 50, 8, 0.45);
+    outline-offset: 2px;
+  }
+
+  .search button,
+  .bag-button,
+  .category-chip,
+  .order-main,
+  .reservation-submit,
+  .maps-link,
+  .footer-button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Kategori: respons sentuhan */
+  .category-chip {
+    transition: background-color 0.2s ease,
+                color 0.2s ease,
+                transform 0.18s ease,
+                box-shadow 0.2s ease;
+  }
+
+  .category-chip:active {
+    transform: scale(0.95);
+  }
+
+  .category-chip.active {
+    box-shadow: 0 4px 12px rgba(216, 50, 8, 0.18);
+  }
+
+  /* Kartu menu: animasi masuk ringan */
+  .food-card {
+    min-width: 0;
+    animation: mobileFadeUp 0.35s ease both;
+    transition: box-shadow 0.2s ease,
+                border-color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .food-card:nth-child(2) { animation-delay: 0.03s; }
+  .food-card:nth-child(3) { animation-delay: 0.06s; }
+  .food-card:nth-child(4) { animation-delay: 0.09s; }
+  .food-card:nth-child(5) { animation-delay: 0.12s; }
+  .food-card:nth-child(6) { animation-delay: 0.15s; }
+
+  .food-image {
+    transition: transform 0.25s ease;
+  }
+
+  .bag-button {
+    transition: transform 0.18s ease,
+                background-color 0.18s ease,
+                box-shadow 0.18s ease;
+  }
+
+  .bag-button:active {
+    transform: scale(0.92);
+    box-shadow: 0 3px 10px rgba(216, 50, 8, 0.22);
+  }
+
+  /* Tombol utama terasa responsif */
+  .order-main,
+  .reservation-submit,
+  .maps-link,
+  .footer-button {
+    transition: transform 0.18s ease,
+                box-shadow 0.18s ease,
+                background-color 0.18s ease;
+  }
+
+  .order-main:active,
+  .reservation-submit:active,
+  .maps-link:active,
+  .footer-button:active {
+    transform: scale(0.97);
+  }
+
+  /* Keranjang: tampilan dan perubahan lebih lembut */
+  .order-panel {
+    animation: mobileFadeUp 0.25s ease both;
+  }
+
+  .cart-row {
+    animation: mobileFadeUp 0.22s ease both;
+  }
+
+  .quantity-btn,
+  .remove-btn {
+    touch-action: manipulation;
+    transition: transform 0.15s ease,
+                background-color 0.15s ease;
+  }
+
+  .quantity-btn:active {
+    transform: scale(0.9);
+  }
+
+  /* Reservasi: fokus input lebih jelas */
+  .reservation-form input,
+  .reservation-form textarea {
+    max-width: 100%;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+  }
+
+  .reservation-form input:focus,
+  .reservation-form textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(216, 50, 8, 0.12);
+  }
+
+  /* Review: efek sentuh */
+  .review-card {
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+  }
+
+  .review-card:active {
+    transform: scale(0.99);
+  }
+
+  /* Footer: logo dan tautan punya feedback sentuhan */
+  .footer-socials a,
+  .footer-delivery-logos a,
+  .footer-wa-link {
+    transition: transform 0.18s ease,
+                opacity 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .footer-socials a:active,
+  .footer-delivery-logos a:active,
+  .footer-wa-link:active {
+    transform: scale(0.96);
+    opacity: 0.8;
+  }
+
+  /* Fokus keyboard yang mudah terlihat */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid #f7a66b;
+    outline-offset: 3px;
+  }
+}
+
+/* Penyesuaian khusus HP */
+@media screen and (max-width: 650px) {
+
+  /* Kategori bisa digeser jika layar sangat sempit */
+  .category-bar {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 2px 10px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .category-chip {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  /* Kartu menu tidak bergeser berlebihan saat disentuh */
+  .food-card:active {
+    transform: scale(0.985);
+  }
+
+  /* Tombol tambah lebih jelas */
+  .bag-button:active {
+    background-color: #a92505;
+  }
+
+  /* Form reservasi nyaman digunakan */
+  .reservation-form input,
+  .reservation-form textarea,
+  .reservation-form button {
+    font-size: 16px;
+  }
+
+  /* Peta tetap mengikuti lebar layar */
+  .map-frame {
+    width: 100%;
+  }
+
+  .map-frame iframe {
+    width: 100%;
+  }
+
+  /* Modal checkout tidak keluar dari layar */
+  .demo-checkout-overlay {
+    padding: 12px;
+    align-items: center;
+  }
+
+  .demo-checkout-modal {
+    width: 100%;
+    max-width: 480px;
+    max-height: 88dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* HP kecil */
+@media screen and (max-width: 380px) {
+  .category-bar {
+    gap: 6px;
+  }
+
+  .category-chip {
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+
+  .food-card {
+    animation-duration: 0.25s;
+  }
+
+  .demo-checkout-modal {
+    padding: 22px 16px;
+  }
+}
+
+/* Hormati pengaturan Reduce Motion perangkat */
+@media (prefers-reduced-motion: reduce) {
+  .food-card,
+  .cart-row,
+  .order-panel {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
