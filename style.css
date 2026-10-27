@@ -770,7 +770,7 @@ nav a {
   letter-spacing: 2px;
 }
 
-.footer-grid a:not(.footer-button) {
+.footer-grid a:not(.footer-button):not(.credit-wa) {
   display: block;
   margin: 12px 0;
   color: white;
@@ -934,7 +934,7 @@ nav a {
   color: #e8bd85;
 }
 
-.footer-grid a:not(.footer-button) {
+.footer-grid a:not(.footer-button):not(.credit-wa) {
   color: #fff8ed;
 }
 
@@ -993,7 +993,7 @@ nav a {
   line-height: 1.8;
 }
 
-.footer-grid a:not(.footer-button) {
+.footer-grid a:not(.footer-button):not(.credit-wa) {
   display: block;
   width: fit-content;
   margin: 0 0 12px;
@@ -2147,7 +2147,7 @@ nav a:hover {
   line-height: 1.8;
 }
 
-.site-footer .footer-grid a:not(.footer-button) {
+.site-footer .footer-grid a:not(.footer-button):not(.credit-wa) {
   display: block;
   margin-bottom: 12px;
   color: #e8d8c9;
@@ -2676,6 +2676,23 @@ nav a:hover {
   box-shadow: 0 6px 22px rgba(55, 27, 15, .22);
   font: 700 13px 'DM Sans', sans-serif;
   cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.cart-float-toggle.dragged {
+  right: auto !important;
+  bottom: auto !important;
+  left: var(--cart-x, auto) !important;
+  top: var(--cart-y, auto) !important;
+}
+
+.cart-float-toggle.dragged ~ .order-panel.panel-positioned,
+#pesanan.panel-positioned {
+  left: var(--panel-x, auto) !important;
+  top: var(--panel-y, auto) !important;
+  right: auto !important;
+  bottom: auto !important;
 }
 
 .cart-float-count {
@@ -3359,7 +3376,7 @@ body.cart-open .order-panel.visible {
   text-align: center;
 }
 
-.site-footer .footer-bottom span {
+.site-footer .footer-bottom > span {
   display: block;
   width: 100%;
   margin: 0;
@@ -3367,14 +3384,6 @@ body.cart-open .order-panel.visible {
   position: static;
   transform: none;
   text-align: center;
-}
-
-.site-footer .footer-bottom span:first-child {
-  order: 2;
-}
-
-.site-footer .footer-bottom span:last-child {
-  order: 1;
 }
 
 /* FIX FINAL — COPYRIGHT & WEBSITE DEMO DI TENGAH */
@@ -3394,20 +3403,14 @@ body.cart-open .order-panel.visible {
   border-top: 0px solid #68422d;
 }
 
-.site-footer .footer-bottom span {
+/* Hanya span LANGSUNG footer-bottom — span di dalam .footer-credit tetap inline */
+.site-footer .footer-bottom > span {
   display: block !important;
-  width: 350%;
+  width: auto;
   margin: 0;
   text-align: center !important;
 }
 
-.site-footer .footer-bottom span:first-child {
-  order: 2;
-}
-
-.site-footer .footer-bottom span:last-child {
-  order: 1;
-}
 /* Jarak tombol dengan teks Pesan juga melalui */
 .site-footer .footer-grid .footer-button + .footer-button + p {
   margin-top: 24px !important;
@@ -4645,5 +4648,155 @@ body.cart-open .order-panel.visible {
     line-height: 1.3;
     white-space: normal;
     border-radius: 10px;
+  }
+}
+
+/* PROMO KHUSUS HP KECIL: 355 x 866 */
+@media screen and (max-width: 375px) {
+  .promo-section {
+    padding: 12px 8px;
+  }
+
+  .promo-section .feature-heading {
+    margin-bottom: 10px;
+  }
+
+  .promo-section .feature-heading h2 {
+    font-size: 20px;
+  }
+
+  .promo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .promo-card-visual {
+    min-width: 0;
+    border-radius: 14px;
+  }
+
+  .promo-image-wrap {
+    height: 85px;
+    min-height: 85px;
+  }
+
+  .promo-content {
+    padding: 8px;
+  }
+
+  .promo-content h3 {
+    font-size: 12px;
+    line-height: 1.3;
+    margin: 3px 0 5px;
+  }
+
+  .promo-description,
+  .promo-menu-name {
+    font-size: 10px;
+    line-height: 1.3;
+    margin: 4px 0;
+  }
+
+  .promo-prices {
+    gap: 4px;
+    margin: 5px 0;
+  }
+
+  .promo-old-price {
+    font-size: 8px;
+  }
+
+  .promo-new-price {
+    font-size: 13px;
+  }
+
+  .promo-period {
+    font-size: 8px;
+    line-height: 1.25;
+    margin: 4px 0 6px;
+  }
+
+  .promo-card-visual .bag-button,
+  .promo-card-visual .promo-menu-button {
+    width: 100%;
+    min-width: 0;
+    min-height: 30px;
+    padding: 6px 2px;
+    font-size: 9px;
+    line-height: 1.2;
+  }
+}
+
+/* ===== FOOTER CREDIT — PORTOWEB.ID (mengikuti referensi Project 4) ===== */
+/* Isi credit: teks "Crafted by PortoWeb.id" + ikon IG, satu baris */
+.site-footer .footer-credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: auto !important;
+  max-width: 100%;
+  padding: 0;
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 10px;
+  color: #e8bfa3;
+}
+
+/* Teks credit jangan terpecah dua baris di layar sempit.
+   !important untuk mengalahkan rule lama .footer-bottom span (block + width:100%) */
+.site-footer .footer-credit > span {
+  display: inline-flex !important;
+  width: auto !important;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  flex-direction: row !important;
+}
+
+.site-footer .footer-credit > a {
+  display: inline-flex !important;
+  width: auto !important;
+}
+
+.site-footer .footer-credit .credit-wa {
+  display: inline !important;
+  width: auto !important;
+  color: #FFF7E8;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.site-footer .footer-credit .credit-wa:hover {
+  color: #ffffff;
+}
+
+.site-footer .footer-credit .credit-ig {
+  display: inline-flex;
+  align-items: center;
+  opacity: .75;
+  transition: opacity .2s;
+}
+
+.site-footer .footer-credit .credit-ig:hover {
+  opacity: 1;
+}
+
+.site-footer .footer-credit .credit-ig img {
+  width: 14px;
+  height: 14px;
+  margin-bottom: -10px;
+  object-fit: contain;
+}
+
+.site-footer .footer-credit .credit-ig.ig-missing {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer .footer-credit .credit-ig,
+  .site-footer .footer-credit .credit-wa {
+    transition: none;
   }
 }

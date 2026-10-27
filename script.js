@@ -318,6 +318,11 @@ function renderPromos() {
       } finally {
         menuItem.price = savedPrice;
       }
+
+      // Simpan override harga promo agar kuantitas dan checkout
+      // tetap memakai harga promo yang benar.
+      promoPriceOverrides.set(menuItem.name, promoPrice);
+      renderCart();
     });
 
 
@@ -330,6 +335,18 @@ function renderPromos() {
 
 
 // Menambah satu menu ke keranjang.
+// Harga promo tersimpan terpisah agar tidak berubah saat kuantitas diubah.
+const promoPriceOverrides = new Map();
+
+function getEffectivePrice(name) {
+  const item = menu.find((product) => product.name === name);
+  if (!item) return 0;
+  const promoPrice = promoPriceOverrides.get(name);
+  return (promoPrice !== undefined && promoPrice < item.price)
+    ? promoPrice
+    : item.price;
+}
+
 function addToCart(name) {
   const currentQty = cart.get(name) || 0;
   cart.set(name, currentQty + 1);
@@ -377,7 +394,7 @@ function renderCart() {
 
     if (!item) return;
 
-    const subtotal = item.price * qty;
+    const subtotal = getEffectivePrice(name) * qty;
     total += subtotal;
     totalItems += qty;
 
@@ -446,7 +463,7 @@ function checkout() {
     const item = menu.find((product) => product.name === name);
     if (!item) return;
 
-    const subtotal = item.price * qty;
+    const subtotal = getEffectivePrice(name) * qty;
     total += subtotal;
 
     lines.push(
@@ -493,143 +510,6 @@ document.querySelector(".category-bar").addEventListener("click", (event) => {
 /* ===== PANEL KONFIRMASI PESANAN ===== */
 
 function showOrderConfirmation() {
-  const whatsappNumber = String(
-    (window.menuSettings || {}).whatsapp || WHATSAPP_NUMBER
-  ).replace(/\D/g, "");
-
-  if (!/^\d{10,15}$/.test(whatsappNumber)) {
-    alert("Nomor WhatsApp belum valid. Periksa tab Pengaturan di Google Sheets.");
-    return;
-  }
-
-  let total = 0;
-  let itemsHTML = "";
-
-  cart.forEach((qty, name) => {
-    const item = menu.find((product) => product.name === name);
-    if (!item) return;
-
-    const subtotal = item.price * qty;
-    total += subtotal;
-
-    itemsHTML += `
-      <div class="demo-checkout-item">
-        <div>
-          <strong>${item.name}</strong>
-          <p>${qty} × ${formatRupiah(item.price)}</p>
-        </div>
-        <strong>${formatRupiah(subtotal)}</strong>
-      </div>
-    `;
-  });
-
-  const oldModal = document.querySelector(".demo-checkout-overlay");
-  if (oldModal) oldModal.remove();
-
-  const overlay = document.createElement("div");
-  overlay.className = "demo-checkout-overlay";
-
-  overlay.innerHTML = `
-    <div class="demo-checkout-modal" role="dialog"
-         aria-modal="true" aria-labelledby="checkoutTitle">
-
-      <button class="demo-checkout-close"
-              type="button" aria-label="Tutup">&times;</button>
-
-      <p class="demo-checkout-label">KONFIRMASI PESANAN</p>
-      <h2 id="checkoutTitle">Ringkasan Pesanan</h2>
-
-      <p class="demo-checkout-info">
-        Periksa pesanan kamu sebelum melanjutkan ke WhatsApp.
-      </p>
-
-      <div class="demo-checkout-items">
-        ${itemsHTML}
-      </div>
-
-      <div class="demo-checkout-total">
-        <span>Total pesanan</span>
-        <strong>${formatRupiah(total)}</strong>
-      </div>
-
-      <p class="demo-checkout-status">
-        Pesanan belum dikirim ke restoran.
-        Kamu masih perlu menekan tombol Kirim di WhatsApp.
-      </p>
-
-      <button class="demo-checkout-confirm" type="button">
-        Konfirmasi & lanjutkan ke WhatsApp
-      </button>
-
-      <button class="demo-checkout-cancel" type="button">
-        Kembali ke Menu
-      </button>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  function closeModal() {
-    overlay.remove();
-  }
-
-  overlay.querySelector(".demo-checkout-close")
-    .addEventListener("click", closeModal);
-
-  overlay.querySelector(".demo-checkout-cancel")
-    .addEventListener("click", closeModal);
-
-  overlay.addEventListener("click", (event) => {
-    if (event.target === overlay) closeModal();
-  });
-
-  overlay.querySelector(".demo-checkout-confirm")
-    .addEventListener("click", () => {
-      const whatsappNumber = String(
-        (window.menuSettings || {}).whatsapp || WHATSAPP_NUMBER
-      ).replace(/\D/g, "");
-
-      if (!/^\d{10,15}$/.test(whatsappNumber)) {
-        alert("Nomor WhatsApp belum valid. Periksa tab Pengaturan.");
-        return;
-      }
-
-      const lines = [];
-      let orderTotal = 0;
-
-      cart.forEach((qty, name) => {
-        const item = menu.find((product) => product.name === name);
-        if (!item) return;
-
-        const subtotal = item.price * qty;
-        orderTotal += subtotal;
-
-        lines.push(
-          `- ${item.name} x ${qty} = ${formatRupiah(subtotal)}`
-        );
-      });
-
-      const message = [
-        "Halo Masakan Emak, saya ingin memesan:",
-        "",
-        ...lines,
-        "",
-        `Total pesanan: ${formatRupiah(orderTotal)}`,
-        "",
-        "Mohon konfirmasi ketersediaan menu dan cara pembayarannya. Terima kasih."
-      ].join("\n");
-
-      const url =
-        `https://wa.me/${String(window.menuSettings?.whatsapp || WHATSAPP_NUMBER)
-          .replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
-
-      window.open(url, "_blank", "noopener,noreferrer");
-    });
-}
-
-/* ===== PANEL KONFIRMASI PESANAN ===== */
-
-function showOrderConfirmation() {
   if (cart.size === 0) {
     alert("Keranjang masih kosong. Silakan pilih menu terlebih dahulu.");
     return;
@@ -642,14 +522,15 @@ function showOrderConfirmation() {
     const item = menu.find((product) => product.name === name);
     if (!item) return;
 
-    const subtotal = item.price * qty;
+    const unitPrice = getEffectivePrice(name);
+    const subtotal = unitPrice * qty;
     total += subtotal;
 
     itemsHTML += `
       <div class="demo-checkout-item">
         <div>
           <strong>${item.name}</strong>
-          <p>${qty} × ${formatRupiah(item.price)}</p>
+          <p>${qty} × ${formatRupiah(unitPrice)}</p>
         </div>
         <strong>${formatRupiah(subtotal)}</strong>
       </div>
@@ -734,7 +615,7 @@ function showOrderConfirmation() {
         const item = menu.find((product) => product.name === name);
         if (!item) return;
 
-        const subtotal = item.price * qty;
+        const subtotal = getEffectivePrice(name) * qty;
         orderTotal += subtotal;
 
         lines.push(
@@ -924,7 +805,14 @@ if (reservationForm) {
     const guests = document.getElementById("reservationGuests").value;
     const notes = document.getElementById("reservationNotes").value.trim();
 
-    const whatsappNumber = "6281234567890"; // GANTI dengan nomor yang benar
+    const whatsappNumber = String(
+      (window.menuSettings || {}).whatsapp || WHATSAPP_NUMBER
+    ).replace(/\D/g, "");
+
+    if (!/^[1-9][0-9]{9,14}$/.test(whatsappNumber)) {
+      alert("Nomor WhatsApp belum valid. Periksa tab Pengaturan di Google Sheets.");
+      return;
+    }
 
     const message = [
       "Halo Masakan Emak, saya ingin mengajukan reservasi meja.",
@@ -968,14 +856,131 @@ if (reservationForm) {
     );
   }
 
-  toggle.addEventListener('click', () => {
-    setCartOpen(!document.body.classList.contains('cart-open'));
-  });
-
   // Tutup dengan tombol Escape
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') setCartOpen(false);
   });
+
+  /* ===== GESER FLOATING KERANJANG (Pointer Events) ===== */
+  const DRAG_THRESHOLD = 6;
+  let dragged = false;
+
+  function applyCartPosition(x, y) {
+    const w = toggle.offsetWidth;
+    const h = toggle.offsetHeight;
+    const maxX = window.innerWidth - w;
+    const maxY = window.innerHeight - h;
+    const cx = Math.min(Math.max(x, 0), maxX);
+    const cy = Math.min(Math.max(y, 0), maxY);
+    toggle.style.setProperty('--cart-x', cx + 'px');
+    toggle.style.setProperty('--cart-y', cy + 'px');
+    toggle.classList.add('dragged');
+  }
+
+  // Posisikan panel di dekat posisi terkini tombol.
+  function positionPanel() {
+    if (!document.body.classList.contains('cart-open')) return;
+
+    const rect = toggle.getBoundingClientRect();
+    const pw = panel.offsetWidth;
+    const ph = panel.offsetHeight;
+    const gap = 10;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    let px;
+    let py;
+
+    // Utamakan di atas tombol, horizontal sejajar tombol.
+    px = rect.left + rect.width / 2 - pw / 2;
+    py = rect.top - gap - ph;
+
+    // Jika tidak muat di atas, taruh di bawah tombol.
+    if (py < 8) py = rect.top + rect.height + gap;
+
+    // Jika tetap keluar viewport (bawah), taruh di atas.
+    if (py + ph > vh - 8) py = Math.max(8, vh - ph - 8);
+
+    // Clamp horizontal.
+    px = Math.min(Math.max(px, 8), Math.max(8, vw - pw - 8));
+    py = Math.min(Math.max(py, 8), Math.max(8, vh - ph - 8));
+
+    panel.style.setProperty('--panel-x', px + 'px');
+    panel.style.setProperty('--panel-y', py + 'px');
+    panel.classList.add('panel-positioned');
+  }
+
+  function startDrag(event) {
+    if (event.button !== undefined && event.button !== 0) return;
+    const rect = toggle.getBoundingClientRect();
+    const startX = event.clientX;
+    const startY = event.clientY;
+    const offsetX = startX - rect.left;
+    const offsetY = startY - rect.top;
+    dragged = false;
+
+    function move(e) {
+      if (e.pointerId !== undefined && e.pointerId !== event.pointerId) return;
+      const x = e.clientX - offsetX;
+      const y = e.clientY - offsetY;
+      if (!dragged &&
+          (Math.abs(e.clientX - startX) > DRAG_THRESHOLD ||
+           Math.abs(e.clientY - startY) > DRAG_THRESHOLD)) {
+        dragged = true;
+        toggle.setPointerCapture?.(event.pointerId);
+      }
+      if (dragged) {
+        applyCartPosition(x, y);
+        positionPanel();
+        e.preventDefault();
+      }
+    }
+
+    function end(e) {
+      document.removeEventListener('pointermove', move);
+      document.removeEventListener('pointerup', end);
+      document.removeEventListener('pointercancel', end);
+      if (dragged && e.cancelable) e.preventDefault();
+    }
+
+    document.addEventListener('pointermove', move);
+    document.addEventListener('pointerup', end);
+    document.addEventListener('pointercancel', end);
+  }
+
+  toggle.addEventListener('pointerdown', startDrag);
+
+  toggle.addEventListener('click', (e) => {
+    if (dragged) {
+      e.preventDefault();
+      e.stopPropagation();
+      dragged = false;
+      return;
+    }
+    setCartOpen(!document.body.classList.contains('cart-open'));
+    positionPanel();
+  });
+
+  window.addEventListener('resize', () => {
+    // Clamp setelah layout media query selesai diterapkan,
+    // lalu sekali lagi di frame berikutnya (ukuran tombol/panel bisa berubah).
+    function reclamp() {
+      const rect = toggle.getBoundingClientRect();
+      if (rect.right > window.innerWidth || rect.bottom > window.innerHeight ||
+          rect.left < 0 || rect.top < 0) {
+        applyCartPosition(rect.left, rect.top);
+      }
+      positionPanel();
+    }
+
+    requestAnimationFrame(() => {
+      reclamp();
+      requestAnimationFrame(reclamp);
+    });
+  });
+
+  // Posisi panel dihitung ulang saat tata letak berubah (mis. saat dibuka).
+  new ResizeObserver(positionPanel).observe(panel);
 
   // Perbarui badge ketika jumlah keranjang berubah
   new MutationObserver(syncCartCount).observe(cartCount, {
@@ -1071,17 +1076,7 @@ document.addEventListener('click', (event) => {
   }, 450);
 });
 
-/* FEEDBACK TAMBAH — CEPAT */
-document.addEventListener('click', (event) => {
-  const button = event.target.closest('.bag-button');
-  if (!button) return;
 
-  button.classList.add('just-added');
-
-  window.setTimeout(() => {
-    button.classList.remove('just-added');
-  }, 220);
-});
 
 
 
